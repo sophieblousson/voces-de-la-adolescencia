@@ -1,0 +1,40 @@
+.timeline {
+  list-style: none;
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  border-left: 2px solid var(--color-borde);
+}
+
+.item {
+  position: relative;
+  padding: 0 0 var(--space-6) var(--space-6);
+  display: flex;
+  gap: var(--space-3);
+}
+
+.item:last-child {
+  padding-bottom: 0;
+}
+
+.dot {
+  position: absolute;
+  left: -7px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-accion-principal);
+  border: 2px solid var(--color-fondo);
+}
+
+.fecha {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-accion-principal);
+  margin: 0;
+}
+
+.evento {
+  margin: var(--space-1) 0 0;
+  color: var(--color-texto-principal);
+}

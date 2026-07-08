@@ -1,0 +1,19 @@
+.section {
+  background-color: var(--color-fondo);
+  padding: var(--space-16) var(--space-4);
+}
+
+.alt {
+  background-color: var(--color-fondo-alt);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: var(--space-12) var(--space-4);
+  }
+}

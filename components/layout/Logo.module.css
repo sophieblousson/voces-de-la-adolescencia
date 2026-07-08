@@ -1,0 +1,37 @@
+.logo {
+  height: 32px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-fondo-alt);
+  border: 1px dashed var(--color-borde);
+  color: var(--color-texto-secundario);
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+}
+
+.sm {
+  height: 24px;
+  width: 24px;
+}
+
+@media (max-width: 480px) {
+  .logo {
+    height: 24px;
+  }
+
+  .placeholder {
+    height: 24px;
+    width: 24px;
+  }
+}

@@ -1,0 +1,91 @@
+.hero {
+  background-color: var(--color-fondo);
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-4);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.kicker {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-acento-pedagogico);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 var(--space-3);
+}
+
+.title {
+  font-size: var(--fs-3xl);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.lema {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  color: var(--color-accion-principal);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.lead {
+  font-size: var(--fs-lg);
+  max-width: 46ch;
+}
+
+.ctas {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+.waveform {
+  color: var(--color-verde);
+  width: 200px;
+  height: 24px;
+  margin-top: var(--space-8);
+}
+
+.countdownBox {
+  background-color: var(--color-fondo-alt);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+}
+
+.countdownLabel {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .countdownBox {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: var(--fs-2xl);
+  }
+
+  .lema {
+    font-size: var(--fs-lg);
+  }
+}

@@ -1,0 +1,44 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.item {
+  background-color: var(--color-fondo);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  border-top: 3px solid var(--color-celeste);
+}
+
+.index {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-texto-secundario);
+  margin-bottom: var(--space-2);
+}
+
+.itemTitle {
+  font-weight: var(--fw-bold);
+  margin: 0 0 var(--space-1);
+  color: var(--color-texto-principal);
+}
+
+.itemText {
+  font-size: var(--fs-sm);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
