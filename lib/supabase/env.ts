@@ -18,10 +18,16 @@ export function getSupabaseUrl(): string {
     throw new Error("Falta NEXT_PUBLIC_SUPABASE_URL en las variables de entorno.");
   }
 
-  // Barra final sobrante es un error común al copiar la URL; la sacamos
-  // antes de validar el formato, así no hace falta pedirle al usuario
-  // que la corrija a mano por algo tan menor.
-  const url = raw.trim().replace(/\/+$/, "");
+  // Dos errores comunes al copiar la URL desde Supabase:
+  // 1) pegar el endpoint del REST API completo (.../rest/v1/) en vez de
+  //    la Project URL — Supabase la muestra así en algunas pantallas.
+  // 2) dejar una barra final de más.
+  // Los normalizamos acá en vez de solo rechazarlos, porque el valor
+  // correcto es 100% recuperable sin ambigüedad.
+  const url = raw
+    .trim()
+    .replace(/\/rest\/v1\/?$/i, "")
+    .replace(/\/+$/, "");
 
   if (!SUPABASE_URL_PATTERN.test(url)) {
     throw new Error(
