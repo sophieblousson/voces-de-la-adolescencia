@@ -1,17 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/types/database.types";
-import { getSupabaseAnonKey, getSupabaseUrl } from "./env";
+import { createBrowserClient } from "@supabase/ssr";
 
-/**
- * Cliente de Supabase para componentes de cliente ("use client").
- * Usa la anon key: nunca debe usarse para escribir en `submissions`
- * (eso siempre pasa por el Route Handler con service_role).
- * Su uso principal en el MVP es leer la sesión del admin en el browser
- * si hace falta (por ejemplo, para mostrar el email logueado en el navbar).
- */
-export function createBrowserClient() {
-  const supabaseUrl = getSupabaseUrl();
-  const supabaseAnonKey = getSupabaseAnonKey();
+export function createClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  return createClient<Database>(supabaseUrl, supabaseAnonKey);
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error("Faltan variables de entorno públicas de Supabase.");
+  }
+
+  return createBrowserClient(supabaseUrl, supabaseAnonKey);
 }
+
+export const createBrowserSupabaseClient = createClient;
