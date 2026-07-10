@@ -17,7 +17,7 @@ export default function Hero() {
 
           <h1 className={styles.title}>Voces de la Adolescencia</h1>
 
-          <p className={styles.lema}>Expresá tu voz. Contá tu historia.</p>
+          <p className={styles.lema}>Expresá tu voz. Contá una historia.</p>
 
           <p className={styles.lead}>
             Una invitación para que estudiantes de 7N a 12N escriban, compartan
