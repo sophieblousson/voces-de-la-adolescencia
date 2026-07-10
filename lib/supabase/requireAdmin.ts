@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 export type AdminSessionResult =
@@ -10,9 +11,30 @@ export type AdminSessionResult =
     }
   | {
       ok: false;
-      status: 401 | 403;
-      message: string;
+      response: NextResponse;
     };
+
+function unauthorized(message: string) {
+  return NextResponse.json(
+    {
+      error: message,
+    },
+    {
+      status: 401,
+    }
+  );
+}
+
+function forbidden(message: string) {
+  return NextResponse.json(
+    {
+      error: message,
+    },
+    {
+      status: 403,
+    }
+  );
+}
 
 export async function requireAdminSession(): Promise<AdminSessionResult> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -21,8 +43,7 @@ export async function requireAdminSession(): Promise<AdminSessionResult> {
   if (!supabaseUrl || !supabaseAnonKey) {
     return {
       ok: false,
-      status: 401,
-      message: "Faltan variables de entorno de Supabase.",
+      response: unauthorized("Faltan variables de entorno de Supabase."),
     };
   }
 
@@ -58,8 +79,7 @@ export async function requireAdminSession(): Promise<AdminSessionResult> {
   if (userError || !user) {
     return {
       ok: false,
-      status: 401,
-      message: "No hay una sesión válida.",
+      response: unauthorized("No hay una sesión válida."),
     };
   }
 
@@ -72,16 +92,14 @@ export async function requireAdminSession(): Promise<AdminSessionResult> {
   if (profileError || !profile) {
     return {
       ok: false,
-      status: 403,
-      message: "Tu usuario no tiene perfil de acceso.",
+      response: forbidden("Tu usuario no tiene perfil de acceso."),
     };
   }
 
   if (profile.role !== "admin") {
     return {
       ok: false,
-      status: 403,
-      message: "Tu usuario no tiene permisos de administrador.",
+      response: forbidden("Tu usuario no tiene permisos de administrador."),
     };
   }
 
