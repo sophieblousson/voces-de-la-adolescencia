@@ -23,7 +23,7 @@
   position: absolute;
   right: -4vw;
   bottom: -5vw;
-  font-size: clamp(7rem, 18vw, 18rem);
+font-size: clamp(3.1rem, 7vw, 5.5rem);
   font-weight: var(--fw-black);
   letter-spacing: -0.08em;
   color: rgba(57, 169, 220, 0.055);
@@ -147,7 +147,7 @@
   position: relative;
   overflow: hidden;
   align-self: stretch;
-  min-height: 360px;
+  min-height: 310px;
   display: flex;
   flex-direction: column;
   justify-content: center;
