@@ -76,7 +76,7 @@ Ver el documento de arquitectura MVP para el detalle completo de rutas, tablas y
 Las migraciones están en `supabase/migrations/`, en orden:
 
 1. `0001_init.sql` — tablas `profiles` y `submissions`, constraints (categorías, estados, declaraciones obligatorias, edad), índices para los filtros del admin, trigger de `updated_at`.
-2. `0002_rls_policies.sql` — Row Level Security: función `is_admin()`, política para que cada usuario lea su propio `profile`, y políticas para que solo admins lean/actualicen `submissions`. No hay política de INSERT: el alta de obras ocurre siempre vía service_role desde el Route Handler.
+2. `0002_rls_policies.sql` — Row Level Security: función `is_admin()`, política para que cada usuario lea su propio `profile`, y políticas para que solo admins lean/actualicen `submissions`. No hay política de INSERT: el alta de obras ocurre siempre vía service_role desde el Route Handler. La policy de UPDATE es defensa en profundidad a nivel de RLS — la UI del MVP nunca actualiza `submissions` directo desde el cliente; todo pasa por `PATCH /api/submissions/[id]`, que limita en código las columnas editables (`status`, `internal_notes`).
 3. `0003_storage_bucket.sql` — bucket privado `obras` + política de lectura para admins (defensa en profundidad; el mecanismo principal de descarga es una signed URL generada server-side).
 
 Para aplicarlas: pegar cada archivo en el SQL Editor de Supabase, en orden, o usar `supabase db push` si tenés la CLI configurada contra el proyecto.

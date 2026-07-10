@@ -58,8 +58,16 @@ create policy "submissions_select_admin"
   to authenticated
   using (public.is_admin());
 
--- Los admins pueden actualizar filas (la app restringe en el Route
--- Handler qué columnas se tocan: status e internal_notes).
+-- Los admins pueden actualizar filas (defensa en profundidad a nivel de
+-- RLS). IMPORTANTE: esta policy NO es el camino que usa la UI del MVP.
+-- El panel admin (Etapa 4) nunca hace un UPDATE directo desde el cliente
+-- contra `submissions` — todo cambio de status/internal_notes pasa por
+-- PATCH /api/submissions/[id], que usa el cliente con service_role y
+-- limita explícitamente en código qué columnas se pueden tocar (solo
+-- status e internal_notes, nunca datos del estudiante ni de la obra).
+-- Esta policy existe para que, si alguna vez se agrega una consulta
+-- directa desde el cliente autenticado, RLS igual impida que alguien
+-- sin rol admin actualice una fila — no para que la UI la use tal cual.
 create policy "submissions_update_admin"
   on public.submissions
   for update

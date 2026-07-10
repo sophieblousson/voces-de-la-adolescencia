@@ -107,7 +107,7 @@ comment on table public.submissions is
   'Obras enviadas al concurso. INSERT/UPDATE solo vía service_role desde app/api/submissions.';
 
 comment on column public.submissions.file_path is
-  'Ruta en el bucket de Storage "obras": obras/{submission_id}/{file_name}. NULL hasta que el archivo se sube correctamente.';
+  'Ruta interna dentro del bucket "obras": 2026/{code}/{file_name}. NULL hasta que el archivo se sube correctamente.';
 
 -- ---------------------------------------------------------------------
 -- Índices para los filtros y búsquedas del panel admin
@@ -151,10 +151,18 @@ create trigger submissions_set_updated_at
 -- Cualquier fila acá NO debe considerarse una inscripción válida.
 -- ---------------------------------------------------------------------
 create or replace view public.incomplete_submissions as
-select id, code, student_email, created_at
+select id, code, created_at
 from public.submissions
 where file_path is null
 order by created_at desc;
 
 comment on view public.incomplete_submissions is
-  'Submissions sin archivo (file_path null). Indica una fila huérfana por una falla entre el INSERT y el UPDATE del POST /api/submissions; nunca es un estado final válido. Revisar y limpiar manualmente.';
+  'Submissions sin archivo (file_path null). Indica una fila huérfana por una falla entre el INSERT y el UPDATE del POST /api/submissions; nunca es un estado final válido. Revisar y limpiar manualmente. Sin datos personales a propósito (solo id/code/created_at).';
+
+-- security_invoker: la vista corre con los permisos y RLS de quien
+-- consulta, no con los del dueño de la vista. Disponible desde
+-- Postgres 15 (Supabase ya está en esa serie o superior). Si el
+-- proyecto corriera sobre una versión anterior, este ALTER falla y
+-- se puede comentar sin problema: la vista igual no expone datos
+-- personales, que era el punto central de este ajuste.
+alter view public.incomplete_submissions set (security_invoker = true);

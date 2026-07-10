@@ -79,7 +79,21 @@ export const ARCHIVO_TAMANO_MAXIMO_BYTES = ARCHIVO_TAMANO_MAXIMO_MB * 1024 * 102
 
 export const STORAGE_BUCKET_OBRAS = "obras";
 
+// Edición del concurso (no el año calendario): se usa como primer segmento
+// de la ruta dentro del bucket -> `${STORAGE_PATH_YEAR}/{code}/{file_name}`.
+export const STORAGE_PATH_YEAR = "2026";
+
 // ---------- Código de participación ----------
 
 export const CODE_PREFIX = "VA26-";
 export const CODE_RANDOM_LENGTH = 6;
+
+// Límite de observations: es un campo para notas breves al equipo
+// organizador, no para pegar la obra completa.
+export const OBSERVATIONS_MAX_LENGTH = 500;
+
+// Rango de edad esperado por las bases (12 a 18 años). El constraint de
+// base de datos es más laxo (10-21) a propósito, como colchón; esta es
+// la regla real que valida el formulario.
+export const STUDENT_AGE_MIN = 12;
+export const STUDENT_AGE_MAX = 18;

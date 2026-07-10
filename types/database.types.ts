@@ -33,6 +33,7 @@ export type Database = {
           role?: "admin" | "jurado";
           created_at?: string;
         };
+        Relationships: [];
       };
       submissions: {
         Row: {
@@ -81,7 +82,26 @@ export type Database = {
           status?: Database["public"]["Tables"]["submissions"]["Row"]["status"];
         };
         Update: Partial<Database["public"]["Tables"]["submissions"]["Row"]>;
+        Relationships: [];
       };
     };
+    Views: {
+      incomplete_submissions: {
+        Row: {
+          id: string;
+          code: string;
+          created_at: string;
+        };
+        Relationships: [];
+      };
+    };
+    Functions: {
+      is_admin: {
+        Args: Record<PropertyKey, never>;
+        Returns: boolean;
+      };
+    };
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 };
