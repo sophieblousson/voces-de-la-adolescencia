@@ -7,7 +7,7 @@ import styles from "./Header.module.css";
 
 const NAV_LINKS = [
   { href: "/", label: "Inicio" },
-  { href: "/bases", label: "Bases y condiciones" },
+  { href: "/bases", label: "Bases" },
 ];
 
 export default function Header() {
@@ -15,6 +15,8 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
+      <div className={styles.brandLine} aria-hidden="true" />
+
       <div className={styles.inner}>
         <Link href="/" className={styles.brand} onClick={() => setOpen(false)}>
           <Logo size="sm" />
@@ -51,6 +53,7 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+
           <Link
             href="/participar"
             className={styles.navCta}
