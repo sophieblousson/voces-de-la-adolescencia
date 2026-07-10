@@ -2,13 +2,12 @@
   Tokens de marca — Active Learning
   Voces de la Adolescencia 2026
 
-  Fuente de verdad para colores y tipografía institucional.
-  No usar valores de color "sueltos" en componentes: siempre referenciar
-  estas variables para que un cambio de marca se propague desde un solo lugar.
+  Fuente de verdad para colores, tipografía, espaciado y sistema visual.
+  La web debe mantener una estética institucional, literaria, cálida y contemporánea.
 */
 
 :root {
-  /* Colores institucionales */
+  /* Colores institucionales Active Learning */
   --color-rojo: #e2001a;
   --color-celeste: #39a9dc;
   --color-negro: #1a171b;
@@ -16,61 +15,106 @@
   --color-verde: #97bf0d;
   --color-amarillo: #ffd500;
 
-  /* Roles semánticos (así los componentes no hablan de "rojo" o "celeste"
-     sino de su función, y el mapeo de marca queda centralizado acá) */
+  /* Roles semánticos */
   --color-fondo: #ffffff;
-  --color-fondo-alt: #f5f5f5; /* gris muy claro, para secciones alternadas */
+  --color-fondo-suave: #f7fbfd;
+  --color-fondo-alt: #f3f8fb;
+  --color-superficie: rgba(255, 255, 255, 0.88);
+  --color-superficie-solida: #ffffff;
+
   --color-texto-principal: var(--color-negro);
   --color-texto-secundario: var(--color-gris);
+  --color-texto-suave: #7b7c80;
+
   --color-accion-principal: var(--color-celeste);
-  --color-accion-principal-hover: #2f8ec0;
+  --color-accion-principal-hover: #248fc2;
   --color-acento-pedagogico: var(--color-verde);
   --color-acento-alerta: var(--color-rojo);
   --color-acento-destaque: var(--color-amarillo);
-  --color-borde: #e0e0e0;
 
-  /* Tintes suaves para bloques destacados (reemplazan fondos oscuros:
-     el negro institucional se reserva para tipografía/íconos, nunca
-     como bloque de fondo dominante). */
-  --color-celeste-tint: #e8f5fb;
-  --color-verde-tint: #f1f7e3;
+  --color-borde: rgba(26, 23, 27, 0.1);
+  --color-borde-suave: rgba(57, 169, 220, 0.16);
 
-  /* Tipografía — Helvetica obligatoria por manual de marca.
-     Fallback al stack del sistema: evita depender de un archivo de fuente
-     con licencia mientras no se confirme si Active Learning provee los
-     archivos de Helvetica para self-host (ver decisión pendiente #10). */
+  /* Tintes suaves */
+  --color-celeste-tint: #eaf7fc;
+  --color-verde-tint: #f2f8e6;
+  --color-amarillo-tint: #fff8d8;
+  --color-rojo-tint: #fdecef;
+
+  /* Gradientes */
+  --gradient-hero: radial-gradient(circle at top left, rgba(57, 169, 220, 0.22), transparent 34%),
+    radial-gradient(circle at top right, rgba(151, 191, 13, 0.2), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f6fbfd 100%);
+
+  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82));
+
+  --gradient-cta: linear-gradient(135deg, rgba(57, 169, 220, 0.14), rgba(151, 191, 13, 0.16));
+
+  --gradient-brand-line: linear-gradient(
+    90deg,
+    var(--color-rojo) 0%,
+    var(--color-amarillo) 24%,
+    var(--color-verde) 52%,
+    var(--color-celeste) 100%
+  );
+
+  /* Textura sutil de puntos */
+  --texture-dots: radial-gradient(rgba(57, 169, 220, 0.18) 1px, transparent 1px);
+
+  /* Tipografía */
   --font-principal: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* Escala tipográfica */
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
   --fs-base: 1rem;
+  --fs-md: 1.0625rem;
   --fs-lg: 1.125rem;
   --fs-xl: 1.5rem;
   --fs-2xl: 2rem;
   --fs-3xl: 2.75rem;
+  --fs-4xl: clamp(2.6rem, 7vw, 5.4rem);
 
   /* Pesos */
   --fw-regular: 400;
   --fw-medium: 500;
+  --fw-semibold: 600;
   --fw-bold: 700;
+  --fw-black: 800;
 
-  /* Espaciado (escala de 4px) */
+  /* Espaciado */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
+  --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+  --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
 
   /* Layout */
-  --radius-sm: 4px;
-  --radius-md: 8px;
   --max-width: 1120px;
+  --max-width-narrow: 820px;
 
-  /* Sombra sutil, uso puntual (cards, modales) */
-  --shadow-sm: 0 1px 3px rgba(26, 23, 27, 0.08);
-  --shadow-md: 0 4px 12px rgba(26, 23, 27, 0.12);
+  /* Radios */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 999px;
+
+  /* Sombras */
+  --shadow-xs: 0 1px 2px rgba(26, 23, 27, 0.06);
+  --shadow-sm: 0 8px 24px rgba(26, 23, 27, 0.08);
+  --shadow-md: 0 18px 48px rgba(26, 23, 27, 0.11);
+  --shadow-lg: 0 28px 80px rgba(26, 23, 27, 0.14);
+
+  /* Transiciones */
+  --transition-fast: 160ms ease;
+  --transition-base: 220ms ease;
 }
