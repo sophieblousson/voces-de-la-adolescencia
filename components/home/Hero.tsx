@@ -7,14 +7,22 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.container}>
         <div className={styles.content}>
-          <p className={styles.kicker}>Active Learning · Concurso literario 2026</p>
+          <div className={styles.emblem} aria-hidden="true">
+            <span>“</span>
+          </div>
+
+          <p className={styles.kicker}>
+            Active Learning · Concurso literario institucional 2026
+          </p>
+
           <h1 className={styles.title}>Voces de la Adolescencia</h1>
-          <p className={styles.lema}>“Expresá tu voz. Contá tu historia.”</p>
+
+          <p className={styles.lema}>Expresá tu voz. Contá tu historia.</p>
+
           <p className={styles.lead}>
-            Un concurso literario institucional para estudiantes de 12 a 18
-            años, de 7N a 12N. Participación gratuita, voluntaria e
-            individual, en tres categorías: poesía, cuento breve y ensayo
-            personal.
+            Una invitación para que estudiantes de 7N a 12N escriban, compartan
+            su mirada y participen con una producción literaria propia en poesía,
+            cuento breve o ensayo personal.
           </p>
 
           <div className={styles.ctas}>
@@ -22,29 +30,23 @@ export default function Hero() {
               Quiero participar
             </Button>
             <Button href="/bases" variant="outline">
-              Leer las bases
+              Leer bases
             </Button>
           </div>
 
-          <svg
-            className={styles.waveform}
-            viewBox="0 0 240 32"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M2 16 L2 16 M20 10 L20 22 M38 4 L38 28 M56 12 L56 20 M74 2 L74 30 M92 14 L92 18 M110 6 L110 26 M128 16 L128 16 M146 8 L146 24 M164 12 L164 20 M182 4 L182 28 M200 14 L200 18 M218 10 L218 22 M236 16 L236 16"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
-          </svg>
+          <div className={styles.meta}>
+            <span>Participación gratuita</span>
+            <span>Producción individual</span>
+            <span>Obra original</span>
+          </div>
         </div>
 
-        <div className={styles.countdownBox}>
+        <aside className={styles.countdownBox} aria-label="Cuenta regresiva">
+          <p className={styles.countdownKicker}>Recepción de obras</p>
+          <p className={styles.countdownDate}>1 SEP · 30 OCT</p>
           <p className={styles.countdownLabel}>Faltan</p>
           <Countdown />
-        </div>
+        </aside>
       </div>
     </section>
   );
