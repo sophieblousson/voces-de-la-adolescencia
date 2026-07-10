@@ -31,7 +31,7 @@ export default function Logo({ size = "md" }: LogoProps) {
     return (
       <span
         className={`${styles.placeholder} ${size === "sm" ? styles.sm : ""}`}
-        title="Falta /public/logo-active-learning.svg (o .png)"
+        title=/public/logo-active-learning.svg
       >
         AL
       </span>
