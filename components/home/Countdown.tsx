@@ -58,8 +58,8 @@ export default function Countdown() {
         </div>
       </div>
       <p className={styles.caption}>
-        para el inicio de la recepción de obras — 1 de septiembre de 2026
-      </p>
+  para que abra la recepción de obras
+</p>
     </div>
   );
 }
