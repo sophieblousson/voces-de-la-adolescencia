@@ -55,10 +55,8 @@ export default function PasoRevision({
           <span className={styles.summaryRowValue}>{data.student_email}</span>
         </div>
         <div className={styles.summaryRow}>
-          <span className={styles.summaryRowLabel}>Edad / curso</span>
-          <span className={styles.summaryRowValue}>
-            {data.student_age} años · {data.student_grade}
-          </span>
+          <span className={styles.summaryRowLabel}>Curso</span>
+          <span className={styles.summaryRowValue}>{data.student_grade}</span>
         </div>
         <div className={styles.summaryRow}>
           <span className={styles.summaryRowLabel}>Colegio</span>

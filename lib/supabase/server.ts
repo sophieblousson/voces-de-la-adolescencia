@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { Database } from "@/types/database.types";
+import { getSupabaseAnonKey, getSupabaseUrl } from "./env";
 
 type CookieToSet = {
   name: string;
@@ -19,14 +20,8 @@ type CookieToSet = {
  * es un admin autenticado antes de usar el cliente con service_role.
  */
 export async function createServerSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      "Faltan NEXT_PUBLIC_SUPABASE_URL o NEXT_PUBLIC_SUPABASE_ANON_KEY en las variables de entorno."
-    );
-  }
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseAnonKey = getSupabaseAnonKey();
 
   const cookieStore = await cookies();
 

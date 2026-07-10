@@ -43,17 +43,12 @@ export type Database = {
           updated_at: string;
           student_name: string;
           student_email: string;
-          student_age: number;
-          student_grade: string;
+          student_grade: "7N" | "8N" | "9N" | "10N" | "11N" | "12N";
           school: string;
           teacher_name: string | null;
-          responsible_adult_name: string | null;
-          responsible_adult_email: string | null;
           category: "poesia" | "cuento_breve" | "ensayo_personal";
           title: string;
           pseudonym: string;
-          word_count: number | null;
-          observations: string | null;
           file_path: string | null;
           file_name: string | null;
           file_type: "doc" | "docx" | "pdf" | null;

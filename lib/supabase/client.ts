@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database.types";
+import { getSupabaseAnonKey, getSupabaseUrl } from "./env";
 
 /**
  * Cliente de Supabase para componentes de cliente ("use client").
@@ -9,14 +10,8 @@ import type { Database } from "@/types/database.types";
  * si hace falta (por ejemplo, para mostrar el email logueado en el navbar).
  */
 export function createBrowserClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      "Faltan NEXT_PUBLIC_SUPABASE_URL o NEXT_PUBLIC_SUPABASE_ANON_KEY en las variables de entorno."
-    );
-  }
+  const supabaseUrl = getSupabaseUrl();
+  const supabaseAnonKey = getSupabaseAnonKey();
 
   return createClient<Database>(supabaseUrl, supabaseAnonKey);
 }

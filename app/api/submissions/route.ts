@@ -42,17 +42,12 @@ export async function POST(request: Request) {
   const rawFields = {
     student_name: formData.get("student_name"),
     student_email: formData.get("student_email"),
-    student_age: formData.get("student_age"),
     student_grade: formData.get("student_grade"),
     school: formData.get("school"),
     teacher_name: formData.get("teacher_name") ?? "",
-    responsible_adult_name: formData.get("responsible_adult_name") ?? "",
-    responsible_adult_email: formData.get("responsible_adult_email") ?? "",
     category: formData.get("category"),
     title: formData.get("title"),
     pseudonym: formData.get("pseudonym"),
-    word_count: formData.get("word_count") ?? "",
-    observations: formData.get("observations") ?? "",
     declaration_original: formData.get("declaration_original") === "true",
     declaration_no_ai: formData.get("declaration_no_ai") === "true",
     declaration_terms: formData.get("declaration_terms") === "true",
@@ -92,15 +87,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: fileValidation.error }, { status: 400 });
   }
 
-  const supabase = createAdminSupabaseClient();
-
-  // ---- 6. Generar code único ----
+  // ---- Crear cliente admin + generar code único (Punto 6) ----
+  // Ambos pasos van en el mismo try/catch: si NEXT_PUBLIC_SUPABASE_URL o
+  // SUPABASE_SERVICE_ROLE_KEY están mal configuradas, createAdminSupabaseClient()
+  // tira un error ACÁ (antes solo generateUniqueCode estaba protegido, y un
+  // error de configuración crasheaba el handler en vez de responder JSON).
+  let supabase: ReturnType<typeof createAdminSupabaseClient>;
   let code: string;
   try {
+    supabase = createAdminSupabaseClient();
     code = await generateUniqueCode(supabase);
   } catch (err) {
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "No se pudo generar el código." },
+      {
+        error:
+          err instanceof Error
+            ? err.message
+            : "No se pudo generar el código de participación.",
+      },
       { status: 500 }
     );
   }
@@ -112,17 +116,12 @@ export async function POST(request: Request) {
       code,
       student_name: data.student_name,
       student_email: data.student_email,
-      student_age: data.student_age,
       student_grade: data.student_grade,
       school: data.school,
       teacher_name: data.teacher_name || null,
-      responsible_adult_name: data.responsible_adult_name || null,
-      responsible_adult_email: data.responsible_adult_email || null,
       category: data.category,
       title: data.title,
       pseudonym: data.pseudonym,
-      word_count: data.word_count ?? null,
-      observations: data.observations || null,
       file_path: null,
       file_name: null,
       file_type: null,

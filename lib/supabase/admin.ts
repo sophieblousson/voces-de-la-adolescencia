@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database.types";
+import { getSupabaseServiceRoleKey, getSupabaseUrl } from "./env";
 
 /**
  * Cliente de Supabase con SERVICE ROLE KEY.
@@ -17,14 +18,8 @@ import type { Database } from "@/types/database.types";
  *   (después de validar la sesión del admin con server.ts).
  */
 export function createAdminSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error(
-      "Faltan NEXT_PUBLIC_SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY en las variables de entorno."
-    );
-  }
+  const supabaseUrl = getSupabaseUrl();
+  const serviceRoleKey = getSupabaseServiceRoleKey();
 
   return createClient<Database>(supabaseUrl, serviceRoleKey, {
     auth: {

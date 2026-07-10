@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { studentSchema } from "@/lib/validations/submission.schema";
+import { GRADOS } from "@/lib/constants";
 import type { WizardData } from "./FormWizard";
 import styles from "./Form.module.css";
 
@@ -24,12 +25,9 @@ export default function PasoDatosEstudiante({
     const result = studentSchema.safeParse({
       student_name: data.student_name,
       student_email: data.student_email,
-      student_age: data.student_age,
       student_grade: data.student_grade,
       school: data.school,
       teacher_name: data.teacher_name,
-      responsible_adult_name: data.responsible_adult_name,
-      responsible_adult_email: data.responsible_adult_email,
     });
 
     if (!result.success) {
@@ -67,35 +65,18 @@ export default function PasoDatosEstudiante({
         {errors.student_name && <p className={styles.errorText}>{errors.student_name}</p>}
       </div>
 
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="student_email">
-            Email
-          </label>
-          <input
-            id="student_email"
-            type="email"
-            className={`${styles.input} ${errors.student_email ? styles.inputError : ""}`}
-            value={data.student_email}
-            onChange={(e) => onChange({ student_email: e.target.value })}
-          />
-          {errors.student_email && <p className={styles.errorText}>{errors.student_email}</p>}
-        </div>
-
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="student_age">
-            Edad
-          </label>
-          <input
-            id="student_age"
-            type="number"
-            inputMode="numeric"
-            className={`${styles.input} ${errors.student_age ? styles.inputError : ""}`}
-            value={data.student_age}
-            onChange={(e) => onChange({ student_age: e.target.value })}
-          />
-          {errors.student_age && <p className={styles.errorText}>{errors.student_age}</p>}
-        </div>
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="student_email">
+          Email
+        </label>
+        <input
+          id="student_email"
+          type="email"
+          className={`${styles.input} ${errors.student_email ? styles.inputError : ""}`}
+          value={data.student_email}
+          onChange={(e) => onChange({ student_email: e.target.value })}
+        />
+        {errors.student_email && <p className={styles.errorText}>{errors.student_email}</p>}
       </div>
 
       <div className={styles.row}>
@@ -103,13 +84,19 @@ export default function PasoDatosEstudiante({
           <label className={styles.label} htmlFor="student_grade">
             Curso / año
           </label>
-          <input
+          <select
             id="student_grade"
-            className={`${styles.input} ${errors.student_grade ? styles.inputError : ""}`}
-            placeholder="Ej: 9N"
+            className={`${styles.select} ${errors.student_grade ? styles.inputError : ""}`}
             value={data.student_grade}
             onChange={(e) => onChange({ student_grade: e.target.value })}
-          />
+          >
+            <option value="">Elegí tu curso</option>
+            {GRADOS.map((grado) => (
+              <option key={grado} value={grado}>
+                {grado}
+              </option>
+            ))}
+          </select>
           {errors.student_grade && <p className={styles.errorText}>{errors.student_grade}</p>}
         </div>
 
@@ -137,36 +124,6 @@ export default function PasoDatosEstudiante({
           value={data.teacher_name}
           onChange={(e) => onChange({ teacher_name: e.target.value })}
         />
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="responsible_adult_name">
-            Adulto responsable <span className={styles.optional}>(si corresponde)</span>
-          </label>
-          <input
-            id="responsible_adult_name"
-            className={styles.input}
-            value={data.responsible_adult_name}
-            onChange={(e) => onChange({ responsible_adult_name: e.target.value })}
-          />
-        </div>
-
-        <div className={styles.field}>
-          <label className={styles.label} htmlFor="responsible_adult_email">
-            Email del adulto responsable <span className={styles.optional}>(si corresponde)</span>
-          </label>
-          <input
-            id="responsible_adult_email"
-            type="email"
-            className={`${styles.input} ${errors.responsible_adult_email ? styles.inputError : ""}`}
-            value={data.responsible_adult_email}
-            onChange={(e) => onChange({ responsible_adult_email: e.target.value })}
-          />
-          {errors.responsible_adult_email && (
-            <p className={styles.errorText}>{errors.responsible_adult_email}</p>
-          )}
-        </div>
       </div>
 
       <div className={`${styles.actions} ${styles.actionsEnd}`}>

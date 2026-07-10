@@ -1,10 +1,5 @@
 import { z } from "zod";
-import {
-  CATEGORIAS,
-  OBSERVATIONS_MAX_LENGTH,
-  STUDENT_AGE_MAX,
-  STUDENT_AGE_MIN,
-} from "@/lib/constants";
+import { CATEGORIAS, GRADOS } from "@/lib/constants";
 
 /**
  * Un único set de reglas, usado tanto en cada paso del wizard (cliente)
@@ -26,21 +21,11 @@ export const studentSchema = z.object({
     .string()
     .trim()
     .email("Ingresá un email válido."),
-  student_age: z.coerce
-    .number({ invalid_type_error: "Ingresá tu edad." })
-    .int()
-    .min(STUDENT_AGE_MIN, `La edad mínima para participar es ${STUDENT_AGE_MIN} años.`)
-    .max(STUDENT_AGE_MAX, `La edad máxima para participar es ${STUDENT_AGE_MAX} años.`),
-  student_grade: z.string().trim().min(1, "Indicá tu curso o año."),
+  student_grade: z.enum(GRADOS, {
+    errorMap: () => ({ message: "Elegí tu curso / año." }),
+  }),
   school: z.string().trim().min(2, "Indicá tu colegio."),
   teacher_name: z.string().trim().optional().or(z.literal("")),
-  responsible_adult_name: z.string().trim().optional().or(z.literal("")),
-  responsible_adult_email: z
-    .string()
-    .trim()
-    .email("Ingresá un email válido para el adulto responsable.")
-    .optional()
-    .or(z.literal("")),
 });
 
 export type StudentData = z.infer<typeof studentSchema>;
@@ -53,19 +38,6 @@ export const obraSchema = z.object({
   }),
   title: z.string().trim().min(1, "Ingresá el título de la obra."),
   pseudonym: z.string().trim().min(1, "Elegí un seudónimo."),
-  word_count: z.preprocess(
-    (val) => (val === "" || val === undefined || val === null ? undefined : val),
-    z.coerce.number().int().positive().optional()
-  ),
-  observations: z
-    .string()
-    .trim()
-    .max(
-      OBSERVATIONS_MAX_LENGTH,
-      `Las observaciones no pueden superar los ${OBSERVATIONS_MAX_LENGTH} caracteres. Este campo es para notas breves, no para pegar la obra.`
-    )
-    .optional()
-    .or(z.literal("")),
 });
 
 export type ObraData = z.infer<typeof obraSchema>;

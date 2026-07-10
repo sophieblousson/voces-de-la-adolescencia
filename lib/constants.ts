@@ -88,12 +88,9 @@ export const STORAGE_PATH_YEAR = "2026";
 export const CODE_PREFIX = "VA26-";
 export const CODE_RANDOM_LENGTH = 6;
 
-// Límite de observations: es un campo para notas breves al equipo
-// organizador, no para pegar la obra completa.
-export const OBSERVATIONS_MAX_LENGTH = 500;
+// ---------- Curso / año ----------
+// Select cerrado: el formulario ya no acepta texto libre para esto.
 
-// Rango de edad esperado por las bases (12 a 18 años). El constraint de
-// base de datos es más laxo (10-21) a propósito, como colchón; esta es
-// la regla real que valida el formulario.
-export const STUDENT_AGE_MIN = 12;
-export const STUDENT_AGE_MAX = 18;
+export const GRADOS = ["7N", "8N", "9N", "10N", "11N", "12N"] as const;
+
+export type Grado = (typeof GRADOS)[number];

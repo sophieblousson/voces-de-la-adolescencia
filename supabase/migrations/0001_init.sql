@@ -1,6 +1,13 @@
 -- 0001_init.sql
 -- Voces de la Adolescencia 2026 — tablas base del MVP.
 -- Corre en el editor SQL de Supabase o vía `supabase db push`.
+--
+-- Nota: este archivo ya refleja el esquema final después de la
+-- simplificación del formulario (sin edad, adulto responsable, cantidad
+-- de palabras ni observaciones; student_grade como select cerrado 7N-12N).
+-- Si tu proyecto de Supabase corrió una versión anterior de este archivo
+-- (con esas columnas), correr también 0004_simplify_submission_form.sql
+-- para ponerlo al día.
 
 -- ---------------------------------------------------------------------
 -- Extensión necesaria para gen_random_uuid()
@@ -39,19 +46,14 @@ create table if not exists public.submissions (
   -- Datos del estudiante
   student_name              text not null,
   student_email             text not null,
-  student_age               integer not null,
   student_grade             text not null,
   school                    text not null,
   teacher_name              text,
-  responsible_adult_name    text,
-  responsible_adult_email   text,
 
   -- Datos de la obra
   category      text not null,
   title         text not null,
   pseudonym     text not null,
-  word_count    integer,
-  observations  text,
 
   -- Archivo (se completan en un segundo UPDATE, después de subir a Storage;
   -- ver flujo del POST /api/submissions documentado en el proyecto)
@@ -87,8 +89,8 @@ create table if not exists public.submissions (
       'descartado'
     )),
 
-  constraint submissions_student_age_check
-    check (student_age between 10 and 21),
+  constraint submissions_student_grade_check
+    check (student_grade in ('7N', '8N', '9N', '10N', '11N', '12N')),
 
   -- Las 5 declaraciones deben ser verdaderas para que la fila exista:
   -- el Route Handler ya las valida antes de insertar, este constraint

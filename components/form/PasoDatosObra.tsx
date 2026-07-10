@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { obraSchema } from "@/lib/validations/submission.schema";
-import { CATEGORIAS, CATEGORIA_LABELS, OBSERVATIONS_MAX_LENGTH } from "@/lib/constants";
+import { CATEGORIAS, CATEGORIA_LABELS } from "@/lib/constants";
 import FileUpload from "./FileUpload";
 import type { WizardData } from "./FormWizard";
 import styles from "./Form.module.css";
@@ -25,8 +25,6 @@ export default function PasoDatosObra({ data, onChange, onNext, onBack }: PasoDa
       category: data.category,
       title: data.title,
       pseudonym: data.pseudonym,
-      word_count: data.word_count,
-      observations: data.observations,
     });
 
     const nextErrors: Errors = {};
@@ -108,40 +106,6 @@ export default function PasoDatosObra({ data, onChange, onNext, onBack }: PasoDa
           {errors.pseudonym && <p className={styles.errorText}>{errors.pseudonym}</p>}
           <p className={styles.hint}>Así vas a aparecer para el jurado.</p>
         </div>
-      </div>
-
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor="word_count">
-          Cantidad aproximada de palabras <span className={styles.optional}>(opcional)</span>
-        </label>
-        <input
-          id="word_count"
-          type="number"
-          inputMode="numeric"
-          className={`${styles.input} ${errors.word_count ? styles.inputError : ""}`}
-          value={data.word_count}
-          onChange={(e) => onChange({ word_count: e.target.value })}
-        />
-        {errors.word_count && <p className={styles.errorText}>{errors.word_count}</p>}
-      </div>
-
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor="observations">
-          Observaciones para la organización <span className={styles.optional}>(opcional)</span>
-        </label>
-        <textarea
-          id="observations"
-          className={`${styles.textarea} ${errors.observations ? styles.inputError : ""}`}
-          value={data.observations}
-          maxLength={OBSERVATIONS_MAX_LENGTH}
-          onChange={(e) => onChange({ observations: e.target.value })}
-          placeholder="Notas breves para el equipo organizador. No es el lugar para pegar tu obra."
-        />
-        {errors.observations && <p className={styles.errorText}>{errors.observations}</p>}
-        <p className={styles.hint}>
-          {data.observations.length}/{OBSERVATIONS_MAX_LENGTH} caracteres. Tu
-          obra completa va en el archivo adjunto, no acá.
-        </p>
       </div>
 
       <div className={styles.field}>

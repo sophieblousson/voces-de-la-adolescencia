@@ -12,18 +12,13 @@ export type WizardData = {
   // Paso 1
   student_name: string;
   student_email: string;
-  student_age: string;
   student_grade: string;
   school: string;
   teacher_name: string;
-  responsible_adult_name: string;
-  responsible_adult_email: string;
   // Paso 2
   category: string;
   title: string;
   pseudonym: string;
-  word_count: string;
-  observations: string;
   file: File | null;
   // Paso 3
   declaration_original: boolean;
@@ -36,17 +31,12 @@ export type WizardData = {
 const INITIAL_DATA: WizardData = {
   student_name: "",
   student_email: "",
-  student_age: "",
   student_grade: "",
   school: "",
   teacher_name: "",
-  responsible_adult_name: "",
-  responsible_adult_email: "",
   category: "",
   title: "",
   pseudonym: "",
-  word_count: "",
-  observations: "",
   file: null,
   declaration_original: false,
   declaration_no_ai: false,
@@ -81,17 +71,12 @@ export default function FormWizard() {
 
       formData.append("student_name", data.student_name);
       formData.append("student_email", data.student_email);
-      formData.append("student_age", data.student_age);
       formData.append("student_grade", data.student_grade);
       formData.append("school", data.school);
       formData.append("teacher_name", data.teacher_name);
-      formData.append("responsible_adult_name", data.responsible_adult_name);
-      formData.append("responsible_adult_email", data.responsible_adult_email);
       formData.append("category", data.category);
       formData.append("title", data.title);
       formData.append("pseudonym", data.pseudonym);
-      formData.append("word_count", data.word_count);
-      formData.append("observations", data.observations);
       formData.append("declaration_original", String(data.declaration_original));
       formData.append("declaration_no_ai", String(data.declaration_no_ai));
       formData.append("declaration_terms", String(data.declaration_terms));
