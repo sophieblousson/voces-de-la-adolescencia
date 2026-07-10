@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Logo from "./Logo";
+import Logo from "./public/logo-active-learning.svg";
 import styles from "./Header.module.css";
 
 const NAV_LINKS = [
