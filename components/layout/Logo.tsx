@@ -7,11 +7,11 @@ type LogoProps = {
 };
 
 export default function Logo({ size = "md" }: LogoProps) {
-  const [hasError, setHasError] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const dimension = size === "sm" ? 42 : 56;
 
-  if (hasError) {
+  if (failed) {
     return (
       <span
         title="Active Learning"
@@ -42,13 +42,14 @@ export default function Logo({ size = "md" }: LogoProps) {
     <img
       src="/logo-active-learning.svg"
       alt="Active Learning"
-      title="logo-active-learning.svg"
+      title="Active Learning"
       width={dimension}
       height={dimension}
-      onError={() => setHasError(true)}
+      onError={() => setFailed(true)}
       style={{
         width: dimension,
         height: dimension,
+        minWidth: dimension,
         objectFit: "contain",
         display: "block",
       }}
