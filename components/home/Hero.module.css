@@ -170,16 +170,22 @@ font-size: clamp(3.1rem, 7vw, 5.5rem);
   pointer-events: none;
 }
 
-.countdownBox::after {
-  content: "2026";
-  position: absolute;
-  right: -0.15em;
-  bottom: -0.28em;
-  color: rgba(26, 23, 27, 0.045);
-  font-size: 7rem;
-  font-weight: var(--fw-black);
-  letter-spacing: -0.08em;
-  pointer-events: none;
+.countdownBox {
+  position: relative;
+  overflow: hidden;
+  align-self: stretch;
+  min-height: 310px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(var(--space-6), 4vw, var(--space-10));
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.76)),
+    var(--texture-dots) 0 0 / 20px 20px;
+  border: 1px solid rgba(57, 169, 220, 0.18);
+  box-shadow: var(--shadow-lg);
+  animation: floatCard 6s ease-in-out infinite;
 }
 
 .countdownKicker,
@@ -264,5 +270,21 @@ font-size: clamp(3.1rem, 7vw, 5.5rem);
 
   .countdownBox {
     border-radius: var(--radius-lg);
+  }
+}
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdownBox {
+    animation: none;
   }
 }
