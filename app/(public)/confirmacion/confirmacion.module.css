@@ -1,50 +1,55 @@
 .page {
-  background: var(--color-cream, #f7f3e8);
-  padding: 72px 24px 96px;
+  min-height: calc(100vh - 72px);
+  background: var(--color-paper);
+  padding: 72px 24px 92px;
 }
 
-.inner {
-  max-width: 920px;
+.wrap {
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
 
 .eyebrow {
-  margin: 0 0 14px;
-  color: var(--color-sky, #39a9dc);
-  font-size: 0.95rem;
+  margin: 0 0 8px;
+  color: var(--color-marigold-dark);
+  font-family: var(--font-caveat), cursive;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  line-height: 1;
 }
 
-.title {
-  margin: 0;
-  color: var(--color-navy, #132a63);
-  font-family: var(--font-display, "Anton", sans-serif);
-  font-size: clamp(2.6rem, 6vw, 4.4rem);
-  line-height: 0.98;
+.wrap h1 {
+  max-width: 760px;
+  margin: 0 auto;
+  color: var(--color-ink);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: clamp(48px, 7vw, 84px);
+  font-weight: 400;
+  line-height: 0.95;
   letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
 .lead {
-  max-width: 760px;
+  max-width: 620px;
   margin: 24px auto 0;
-  color: var(--color-text, #24385b);
-  font-size: 1.35rem;
-  line-height: 1.65;
-  font-family: var(--font-body, "Source Sans 3", sans-serif);
+  color: #454b58;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 .codeCard {
-  margin: 40px auto 0;
+  position: relative;
   max-width: 760px;
-  background: #eef7fc;
-  border: 1px solid rgba(19, 42, 99, 0.14);
-  border-radius: 22px;
-  padding: 32px 28px;
-  box-shadow: 0 18px 40px rgba(19, 42, 99, 0.08);
+  margin: 42px auto 0;
+  padding: 34px 32px 36px;
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  border-top: 6px solid var(--color-marigold);
+  border-radius: var(--radius-md);
+  box-shadow: 0 18px 42px rgba(21, 37, 72, 0.1);
 }
 
 .status {
@@ -54,74 +59,92 @@
   margin-bottom: 18px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: #ffffff;
-  color: var(--color-navy, #132a63);
-  border: 1px solid rgba(19, 42, 99, 0.12);
-  font-size: 0.95rem;
+  background: #fffaf0;
+  border: 1px solid rgba(242, 169, 59, 0.45);
+  color: var(--color-ink);
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .codeLabel {
   margin: 0;
-  color: var(--color-navy, #132a63);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  color: var(--color-marigold-dark);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .codeValue {
-  margin: 18px 0 12px;
-  color: var(--color-navy, #132a63);
-  font-family: var(--font-display, "Anton", sans-serif);
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin: 14px 0 12px;
+  color: var(--color-ink);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 400;
   line-height: 1;
   letter-spacing: 0.03em;
+  text-transform: uppercase;
+  word-break: break-word;
 }
 
 .codeHelp {
-  margin: 0;
-  color: #4f6183;
-  font-size: 1.05rem;
-  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto;
+  color: #6b7180;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .infoGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
   margin-top: 28px;
 }
 
 .infoBox {
   text-align: left;
   background: #ffffff;
-  border: 1px solid rgba(19, 42, 99, 0.12);
-  border-radius: 18px;
-  padding: 22px 22px 20px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 22px 22px 24px;
 }
 
-.infoTitle {
+.infoNumber {
+  margin: 0 0 8px;
+  color: var(--color-marigold-dark);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.infoBox h2 {
   margin: 0 0 10px;
-  color: var(--color-navy, #132a63);
-  font-family: var(--font-display, "Anton", sans-serif);
-  font-size: 1.6rem;
+  color: var(--color-ink);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
   line-height: 1;
   text-transform: uppercase;
 }
 
-.infoBox p {
+.infoBox p:last-child {
   margin: 0;
-  color: var(--color-text, #24385b);
-  font-size: 1.05rem;
-  line-height: 1.6;
+  color: #454b58;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
 }
 
 .actions {
   display: flex;
   justify-content: center;
-  gap: 16px;
   flex-wrap: wrap;
+  gap: 16px;
   margin-top: 34px;
 }
 
@@ -130,42 +153,42 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 220px;
-  padding: 16px 24px;
-  border-radius: 14px;
-  text-decoration: none;
+  min-width: 210px;
+  padding: 15px 24px;
+  border-radius: 2px;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 15px;
   font-weight: 700;
-  font-size: 1rem;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .primaryButton {
-  background: var(--color-marigold, #e6a128);
-  color: var(--color-navy, #132a63);
-  box-shadow: 0 8px 0 rgba(19, 42, 99, 0.12);
+  background: var(--color-marigold);
+  color: var(--color-ink);
+  box-shadow: 4px 4px 0 rgba(21, 37, 72, 0.18);
 }
 
 .primaryButton:hover {
-  transform: translateY(-1px);
+  background: var(--color-marigold-dark);
+  transform: translate(-1px, -1px);
 }
 
 .secondaryButton {
   background: transparent;
-  color: var(--color-marigold, #e6a128);
-  border: 2px solid var(--color-marigold, #e6a128);
+  color: var(--color-ink);
+  border: 2px solid var(--color-marigold);
 }
 
 .secondaryButton:hover {
-  background: rgba(230, 161, 40, 0.08);
+  background: #fffaf0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
   .page {
     padding: 56px 20px 72px;
-  }
-
-  .lead {
-    font-size: 1.15rem;
   }
 
   .infoGrid {
@@ -173,17 +196,15 @@
   }
 
   .codeCard {
-    padding: 26px 20px;
+    padding: 28px 20px;
   }
 
   .actions {
     flex-direction: column;
-    align-items: stretch;
   }
 
   .primaryButton,
   .secondaryButton {
     width: 100%;
-    min-width: 0;
   }
 }
