@@ -31,7 +31,9 @@ export default function Hero() {
         </span>
 
         <h1 className={styles.title}>
-          Contá tu historia
+          Contá tu
+          <br />
+          historia
           <span>alzá la voz</span>
         </h1>
 
@@ -45,6 +47,7 @@ export default function Hero() {
           <Link href="/participar" className={styles.btnPrimary}>
             Quiero participar →
           </Link>
+
           <Link href="/bases" className={styles.btnSecondary}>
             Leer las bases
           </Link>
@@ -55,10 +58,12 @@ export default function Hero() {
             <strong>1 sep — 30 oct</strong>
             <span>Recepción de obras</span>
           </div>
+
           <div>
             <strong>Compu / E-reader</strong>
             <span>Premios 1° y 2° puesto</span>
           </div>
+
           <div>
             <strong>7N a 12N</strong>
             <span>Quiénes pueden participar</span>
