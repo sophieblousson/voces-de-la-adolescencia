@@ -2,28 +2,23 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ProgressBar from "./ProgressBar";
-import PasoDatosEstudiante from "./PasoDatosEstudiante";
-import PasoDatosObra from "./PasoDatosObra";
-import PasoDeclaraciones from "./PasoDeclaraciones";
-import PasoRevision from "./PasoRevision";
+import { studentSchema, obraSchema } from "@/lib/validations/submission.schema";
+import { CATEGORIAS, CATEGORIA_LABELS, GRADOS } from "@/lib/constants";
+import FileUpload from "./FileUpload";
 import styles from "./FormWizard.module.css";
 
 export type WizardData = {
-  // Paso 1
   student_name: string;
   student_email: string;
   student_grade: string;
   school: string;
   teacher_name: string;
 
-  // Paso 2
   category: string;
   title: string;
   pseudonym: string;
   file: File | null;
 
-  // Paso 3
   declaration_original: boolean;
   declaration_no_ai: boolean;
   declaration_terms: boolean;
@@ -48,27 +43,111 @@ const INITIAL_DATA: WizardData = {
   declaration_publication: false,
 };
 
+type Errors = Partial<Record<keyof WizardData, string>>;
+
+const DECLARACIONES = [
+  {
+    key: "declaration_original" as const,
+    title: "Originalidad",
+    text: "Declaro que la obra es original y de mi autoría.",
+  },
+  {
+    key: "declaration_no_ai" as const,
+    title: "Inteligencia artificial",
+    text: "Declaro que la obra no fue generada total ni parcialmente con inteligencia artificial.",
+  },
+  {
+    key: "declaration_terms" as const,
+    title: "Bases y condiciones",
+    text: "Acepto las bases y condiciones del concurso.",
+  },
+  {
+    key: "declaration_evaluation" as const,
+    title: "Lectura del jurado",
+    text: "Autorizo la lectura y evaluación de la obra por parte del jurado.",
+  },
+  {
+    key: "declaration_publication" as const,
+    title: "Publicación institucional",
+    text: "Autorizo la publicación de obras seleccionadas en la antología digital y materiales institucionales.",
+  },
+];
+
 export default function FormWizard() {
   const router = useRouter();
 
-  const [step, setStep] = useState(1);
   const [data, setData] = useState<WizardData>(INITIAL_DATA);
-  const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Errors>({});
+  const [fileError, setFileError] = useState<string | undefined>(undefined);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   function updateData(patch: Partial<WizardData>) {
     setData((prev) => ({ ...prev, ...patch }));
   }
 
-  function goTo(targetStep: number) {
-    setSubmitError(null);
-    setStep(targetStep);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  function validateForm() {
+    const nextErrors: Errors = {};
+
+    const studentResult = studentSchema.safeParse({
+      student_name: data.student_name,
+      student_email: data.student_email,
+      student_grade: data.student_grade,
+      school: data.school,
+      teacher_name: data.teacher_name,
+    });
+
+    if (!studentResult.success) {
+      for (const issue of studentResult.error.issues) {
+        const field = issue.path[0] as keyof WizardData;
+        if (!nextErrors[field]) nextErrors[field] = issue.message;
+      }
+    }
+
+    const obraResult = obraSchema.safeParse({
+      category: data.category,
+      title: data.title,
+      pseudonym: data.pseudonym,
+    });
+
+    if (!obraResult.success) {
+      for (const issue of obraResult.error.issues) {
+        const field = issue.path[0] as keyof WizardData;
+        if (!nextErrors[field]) nextErrors[field] = issue.message;
+      }
+    }
+
+    if (!data.file) {
+      setFileError("El archivo con tu obra es obligatorio.");
+    } else {
+      setFileError(undefined);
+    }
+
+    for (const declaracion of DECLARACIONES) {
+      if (!data[declaracion.key]) {
+        nextErrors[declaracion.key] = "Esta declaración es obligatoria.";
+      }
+    }
+
+    setErrors(nextErrors);
+
+    return Object.keys(nextErrors).length === 0 && Boolean(data.file);
   }
 
-  async function handleSubmit() {
-    setSubmitting(true);
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setSubmitError(null);
+
+    const isValid = validateForm();
+
+    if (!isValid) {
+      setSubmitError(
+        "Revisá los campos marcados antes de enviar tu participación."
+      );
+      return;
+    }
+
+    setSubmitting(true);
 
     try {
       const formData = new FormData();
@@ -122,45 +201,240 @@ export default function FormWizard() {
   }
 
   return (
-    <div className={styles.wizard}>
-      <ProgressBar currentStep={step} />
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <div className={styles.formIntro}>
+        <p className={styles.script}>Un solo envío, una obra lista para leer.</p>
+        <h2>Formulario de participación</h2>
+        <p>
+          Completá tus datos, identificá la obra y subí el archivo final. El
+          jurado leerá el texto sin tu nombre ni el de tu colegio.
+        </p>
+      </div>
 
-      {step === 1 && (
-        <PasoDatosEstudiante
-          data={data}
-          onChange={updateData}
-          onNext={() => goTo(2)}
-        />
+      {submitError && (
+        <div className={styles.submitError} role="alert">
+          {submitError}
+        </div>
       )}
 
-      {step === 2 && (
-        <PasoDatosObra
-          data={data}
-          onChange={updateData}
-          onNext={() => goTo(3)}
-          onBack={() => goTo(1)}
-        />
-      )}
+      <section className={styles.panel}>
+        <div className={styles.panelHeader}>
+          <span className={styles.number}>01</span>
+          <div>
+            <h3>Tus datos</h3>
+            <p>Quedan solo en el formulario de inscripción.</p>
+          </div>
+        </div>
 
-      {step === 3 && (
-        <PasoDeclaraciones
-          data={data}
-          onChange={updateData}
-          onNext={() => goTo(4)}
-          onBack={() => goTo(2)}
-        />
-      )}
+        <div className={styles.grid}>
+          <div className={styles.field}>
+            <label htmlFor="student_name">Nombre y apellido</label>
+            <input
+              id="student_name"
+              value={data.student_name}
+              onChange={(e) => updateData({ student_name: e.target.value })}
+              placeholder="Tu nombre completo"
+              className={errors.student_name ? styles.inputError : ""}
+            />
+            {errors.student_name && (
+              <p className={styles.errorText}>{errors.student_name}</p>
+            )}
+          </div>
 
-      {step === 4 && (
-        <PasoRevision
-          data={data}
-          onEditStep={goTo}
-          onSubmit={handleSubmit}
-          onBack={() => goTo(3)}
-          submitting={submitting}
-          submitError={submitError}
+          <div className={styles.field}>
+            <label htmlFor="student_email">Email institucional</label>
+            <input
+              id="student_email"
+              type="email"
+              value={data.student_email}
+              onChange={(e) => updateData({ student_email: e.target.value })}
+              placeholder="nombre@colegio.edu.ar"
+              className={errors.student_email ? styles.inputError : ""}
+            />
+            {errors.student_email && (
+              <p className={styles.errorText}>{errors.student_email}</p>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="student_grade">Curso</label>
+            <select
+              id="student_grade"
+              value={data.student_grade}
+              onChange={(e) => updateData({ student_grade: e.target.value })}
+              className={errors.student_grade ? styles.inputError : ""}
+            >
+              <option value="">Elegí tu curso</option>
+              {GRADOS.map((grado) => (
+                <option key={grado} value={grado}>
+                  {grado}
+                </option>
+              ))}
+            </select>
+            {errors.student_grade && (
+              <p className={styles.errorText}>{errors.student_grade}</p>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="school">Colegio</label>
+            <input
+              id="school"
+              value={data.school}
+              onChange={(e) => updateData({ school: e.target.value })}
+              placeholder="Nombre del colegio"
+              className={errors.school ? styles.inputError : ""}
+            />
+            {errors.school && (
+              <p className={styles.errorText}>{errors.school}</p>
+            )}
+          </div>
+
+          <div className={`${styles.field} ${styles.full}`}>
+            <label htmlFor="teacher_name">
+              Docente referente <span>(opcional)</span>
+            </label>
+            <input
+              id="teacher_name"
+              value={data.teacher_name}
+              onChange={(e) => updateData({ teacher_name: e.target.value })}
+              placeholder="Nombre del docente que acompaña la participación"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.panel}>
+        <div className={styles.panelHeader}>
+          <span className={styles.number}>02</span>
+          <div>
+            <h3>Tu obra</h3>
+            <p>Estos datos identifican el texto que vas a enviar.</p>
+          </div>
+        </div>
+
+        <div className={styles.grid}>
+          <div className={`${styles.field} ${styles.full}`}>
+            <label htmlFor="category">Categoría</label>
+            <select
+              id="category"
+              value={data.category}
+              onChange={(e) => updateData({ category: e.target.value })}
+              className={errors.category ? styles.inputError : ""}
+            >
+              <option value="">Elegí una categoría</option>
+              {CATEGORIAS.map((cat) => (
+                <option key={cat} value={cat}>
+                  {CATEGORIA_LABELS[cat]}
+                </option>
+              ))}
+            </select>
+            {errors.category && (
+              <p className={styles.errorText}>{errors.category}</p>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="title">Título de la obra</label>
+            <input
+              id="title"
+              value={data.title}
+              onChange={(e) => updateData({ title: e.target.value })}
+              placeholder="El nombre de tu texto"
+              className={errors.title ? styles.inputError : ""}
+            />
+            {errors.title && <p className={styles.errorText}>{errors.title}</p>}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="pseudonym">Seudónimo</label>
+            <input
+              id="pseudonym"
+              value={data.pseudonym}
+              onChange={(e) => updateData({ pseudonym: e.target.value })}
+              placeholder="Con qué firmás tu obra"
+              className={errors.pseudonym ? styles.inputError : ""}
+            />
+            {errors.pseudonym && (
+              <p className={styles.errorText}>{errors.pseudonym}</p>
+            )}
+            <p className={styles.hint}>Así aparecerá tu obra ante el jurado.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.panel}>
+        <div className={styles.panelHeader}>
+          <span className={styles.number}>03</span>
+          <div>
+            <h3>Archivo</h3>
+            <p>Subí el documento final de tu obra.</p>
+          </div>
+        </div>
+
+        <FileUpload
+          file={data.file}
+          error={fileError}
+          onChange={(file, error) => {
+            updateData({ file });
+            setFileError(error);
+          }}
         />
-      )}
-    </div>
+
+        <div className={styles.notice}>
+          El archivo debe incluir título y seudónimo en la primera página.
+          <strong> No incluyas tu nombre ni el colegio dentro del texto.</strong>
+        </div>
+      </section>
+
+      <section className={styles.panel}>
+        <div className={styles.panelHeader}>
+          <span className={styles.number}>04</span>
+          <div>
+            <h3>Declaraciones</h3>
+            <p>Son obligatorias para poder participar.</p>
+          </div>
+        </div>
+
+        <div className={styles.declarations}>
+          {DECLARACIONES.map((declaracion) => (
+            <label key={declaracion.key} className={styles.declaration}>
+              <input
+                type="checkbox"
+                checked={data[declaracion.key]}
+                onChange={(e) =>
+                  updateData({ [declaracion.key]: e.target.checked })
+                }
+              />
+
+              <span>
+                <strong>{declaracion.title}</strong>
+                {declaracion.text}
+              </span>
+            </label>
+          ))}
+        </div>
+
+        {DECLARACIONES.some((d) => errors[d.key]) && (
+          <p className={styles.errorText}>
+            Tenés que aceptar las 5 declaraciones para continuar.
+          </p>
+        )}
+      </section>
+
+      <div className={styles.finalBox}>
+        <div>
+          <p className={styles.finalTitle}>Antes de enviar</p>
+          <p>
+            Revisá que el archivo sea el correcto. Al enviar, vas a recibir un
+            código de confirmación para identificar tu participación.
+          </p>
+        </div>
+
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Enviando…" : "Enviar participación →"}
+        </button>
+      </div>
+    </form>
   );
 }
