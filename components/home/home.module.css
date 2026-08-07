@@ -5,7 +5,7 @@
 .sectionEyebrow {
   margin: 0 0 4px;
   color: var(--color-marigold-dark);
-  font-family: var(--font-script);
+  font-family: var(--font-caveat), cursive;
   font-size: 24px;
   font-weight: 700;
   line-height: 1.1;
@@ -14,7 +14,7 @@
 .sectionTitle {
   margin: 0 0 40px;
   color: var(--color-ink);
-  font-family: var(--font-display);
+  font-family: var(--font-anton), Impact, sans-serif;
   font-size: 34px;
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -25,7 +25,7 @@
 .eyebrow {
   margin: 0 0 var(--space-2);
   color: var(--color-marigold-dark);
-  font-family: var(--font-script);
+  font-family: var(--font-caveat), cursive;
   font-size: 24px;
   font-weight: 700;
   line-height: 1.1;
@@ -34,7 +34,7 @@
 .heading {
   margin: 0 0 var(--space-8);
   color: var(--color-ink);
-  font-family: var(--font-display);
+  font-family: var(--font-anton), Impact, sans-serif;
   font-size: 34px;
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -45,6 +45,7 @@
 .lead {
   max-width: 68ch;
   color: #454b58;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
 }
@@ -70,6 +71,7 @@
   gap: var(--space-3);
   align-items: flex-start;
   color: #454b58;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 15px;
   line-height: 1.55;
 }
@@ -116,7 +118,7 @@
   border-radius: 50%;
   background-color: var(--color-ink);
   color: var(--color-marigold);
-  font-family: var(--font-display);
+  font-family: var(--font-anton), Impact, sans-serif;
   font-size: 16px;
   font-weight: 400;
 }
@@ -124,6 +126,7 @@
 .stepTitle {
   margin: 0 0 4px;
   color: var(--color-ink);
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 16px;
   font-weight: 700;
 }
@@ -131,6 +134,7 @@
 .stepText {
   margin: 0;
   color: #454b58;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 14.5px;
   line-height: 1.55;
 }
@@ -147,6 +151,7 @@
 .calloutBox p {
   margin: 0;
   color: #5c4a1f;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.55;
 }
