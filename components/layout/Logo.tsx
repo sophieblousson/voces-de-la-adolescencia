@@ -3,53 +3,59 @@
 import { useState } from "react";
 
 type LogoProps = {
+  variant?: "color" | "white";
   size?: "sm" | "md";
+  className?: string;
 };
 
-export default function Logo({ size = "md" }: LogoProps) {
+export default function Logo({
+  variant = "color",
+  size = "md",
+  className,
+}: LogoProps) {
   const [failed, setFailed] = useState(false);
 
-  const dimension = size === "sm" ? 44 : 64;
+  const height = size === "sm" ? 34 : 40;
+  const src =
+    variant === "white"
+      ? "/logo-active-learning-white.svg"
+      : "/logo-active-learning.svg";
 
   if (failed) {
     return (
       <span
+        className={className}
         aria-label="Active Learning"
         title="Active Learning"
         style={{
-          width: dimension,
-          height: dimension,
-          minWidth: dimension,
-          borderRadius: 18,
+          height,
+          minWidth: 112,
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #39a9dc, #97bf0d)",
-          color: "#ffffff",
-          fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-          fontWeight: 800,
-          fontSize: size === "sm" ? 13 : 17,
-          letterSpacing: "-0.04em",
-          boxShadow: "0 8px 24px rgba(26, 23, 27, 0.1)",
+          color: variant === "white" ? "#ffffff" : "#152548",
+          fontFamily: "var(--font-principal)",
+          fontWeight: 700,
+          fontSize: 14,
+          letterSpacing: "0.02em",
         }}
       >
-        AL
+        Active Learning
       </span>
     );
   }
 
   return (
     <img
-      src="/logo-active-learning.svg"
+      className={className}
+      src={src}
       alt="Active Learning"
       title="Active Learning"
-      width={dimension}
-      height={dimension}
+      height={height}
       onError={() => setFailed(true)}
       style={{
-        width: dimension,
-        height: dimension,
-        minWidth: dimension,
+        height,
+        width: "auto",
         objectFit: "contain",
         display: "block",
       }}
