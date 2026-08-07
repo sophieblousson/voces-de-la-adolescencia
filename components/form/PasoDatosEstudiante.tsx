@@ -32,10 +32,12 @@ export default function PasoDatosEstudiante({
 
     if (!result.success) {
       const nextErrors: Errors = {};
+
       for (const issue of result.error.issues) {
         const field = issue.path[0] as keyof WizardData;
         if (!nextErrors[field]) nextErrors[field] = issue.message;
       }
+
       setErrors(nextErrors);
       return;
     }
@@ -45,48 +47,71 @@ export default function PasoDatosEstudiante({
   }
 
   return (
-    <div className={styles.step}>
-      <h1 className={styles.stepTitle}>Tus datos</h1>
-      <p className={styles.stepDescription}>
-        Estos datos quedan solo en el formulario de inscripción, nunca dentro
-        del archivo de la obra.
-      </p>
+    <div className={styles.stepBlock}>
+      <div className={styles.blockTitle}>
+        <span className={styles.blockNumber}>1</span>
 
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor="student_name">
-          Nombre y apellido
-        </label>
-        <input
-          id="student_name"
-          className={`${styles.input} ${errors.student_name ? styles.inputError : ""}`}
-          value={data.student_name}
-          onChange={(e) => onChange({ student_name: e.target.value })}
-        />
-        {errors.student_name && <p className={styles.errorText}>{errors.student_name}</p>}
+        <div>
+          <h2>Tus datos</h2>
+          <p>
+            Solo los ve la organización, nunca el jurado. Sirven para
+            contactarte si tu obra es seleccionada.
+          </p>
+        </div>
       </div>
 
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor="student_email">
-          Email
-        </label>
-        <input
-          id="student_email"
-          type="email"
-          className={`${styles.input} ${errors.student_email ? styles.inputError : ""}`}
-          value={data.student_email}
-          onChange={(e) => onChange({ student_email: e.target.value })}
-        />
-        {errors.student_email && <p className={styles.errorText}>{errors.student_email}</p>}
-      </div>
+      <div className={styles.grid2}>
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="student_name">
+            Nombre y apellido
+          </label>
 
-      <div className={styles.row}>
+          <input
+            id="student_name"
+            className={`${styles.input} ${
+              errors.student_name ? styles.inputError : ""
+            }`}
+            value={data.student_name}
+            onChange={(e) => onChange({ student_name: e.target.value })}
+            placeholder="Tu nombre completo"
+          />
+
+          {errors.student_name && (
+            <p className={styles.errorText}>{errors.student_name}</p>
+          )}
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="student_email">
+            Email institucional
+          </label>
+
+          <input
+            id="student_email"
+            type="email"
+            className={`${styles.input} ${
+              errors.student_email ? styles.inputError : ""
+            }`}
+            value={data.student_email}
+            onChange={(e) => onChange({ student_email: e.target.value })}
+            placeholder="nombre@colegio.edu.ar"
+          />
+
+          {errors.student_email && (
+            <p className={styles.errorText}>{errors.student_email}</p>
+          )}
+        </div>
+
         <div className={styles.field}>
           <label className={styles.label} htmlFor="student_grade">
-            Curso / año
+            Curso
           </label>
+
           <select
             id="student_grade"
-            className={`${styles.select} ${errors.student_grade ? styles.inputError : ""}`}
+            className={`${styles.select} ${
+              errors.student_grade ? styles.inputError : ""
+            }`}
             value={data.student_grade}
             onChange={(e) => onChange({ student_grade: e.target.value })}
           >
@@ -97,33 +122,42 @@ export default function PasoDatosEstudiante({
               </option>
             ))}
           </select>
-          {errors.student_grade && <p className={styles.errorText}>{errors.student_grade}</p>}
+
+          {errors.student_grade && (
+            <p className={styles.errorText}>{errors.student_grade}</p>
+          )}
         </div>
 
         <div className={styles.field}>
           <label className={styles.label} htmlFor="school">
             Colegio
           </label>
+
           <input
             id="school"
             className={`${styles.input} ${errors.school ? styles.inputError : ""}`}
             value={data.school}
             onChange={(e) => onChange({ school: e.target.value })}
+            placeholder="Nombre del colegio"
           />
+
           {errors.school && <p className={styles.errorText}>{errors.school}</p>}
         </div>
-      </div>
 
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor="teacher_name">
-          Docente referente <span className={styles.optional}>(opcional)</span>
-        </label>
-        <input
-          id="teacher_name"
-          className={styles.input}
-          value={data.teacher_name}
-          onChange={(e) => onChange({ teacher_name: e.target.value })}
-        />
+        <div className={`${styles.field} ${styles.full}`}>
+          <label className={styles.label} htmlFor="teacher_name">
+            Docente referente{" "}
+            <span className={styles.optional}>(opcional)</span>
+          </label>
+
+          <input
+            id="teacher_name"
+            className={styles.input}
+            value={data.teacher_name}
+            onChange={(e) => onChange({ teacher_name: e.target.value })}
+            placeholder="Nombre del docente que acompaña la participación"
+          />
+        </div>
       </div>
 
       <div className={`${styles.actions} ${styles.actionsEnd}`}>
@@ -132,7 +166,7 @@ export default function PasoDatosEstudiante({
           className={`${styles.button} ${styles.buttonPrimary}`}
           onClick={handleNext}
         >
-          Siguiente
+          Siguiente →
         </button>
       </div>
     </div>
