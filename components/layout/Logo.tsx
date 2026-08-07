@@ -16,10 +16,13 @@ export default function Logo({
   const [failed, setFailed] = useState(false);
 
   const height = size === "sm" ? 34 : 40;
-  const src =
-    variant === "white"
-      ? "/logo-active-learning-white.svg"
-      : "/logo-active-learning.svg";
+
+  /**
+   * El archivo real está en app/(public)/logoactivelearning.png.
+   * Como está dentro de la carpeta app, Next no lo sirve como archivo público directo.
+   * Por eso conviene moverlo a /public.
+   */
+  const src = "/logoactivelearning.png";
 
   if (failed) {
     return (
@@ -28,16 +31,15 @@ export default function Logo({
         aria-label="Active Learning"
         title="Active Learning"
         style={{
-          height,
-          minWidth: 112,
           display: "inline-flex",
           alignItems: "center",
-          justifyContent: "center",
+          height,
           color: variant === "white" ? "#ffffff" : "#152548",
-          fontFamily: "var(--font-principal)",
+          fontFamily: "var(--font-source-sans-3), Helvetica, Arial, sans-serif",
           fontWeight: 700,
           fontSize: 14,
-          letterSpacing: "0.02em",
+          lineHeight: 1,
+          whiteSpace: "nowrap",
         }}
       >
         Active Learning
@@ -58,6 +60,7 @@ export default function Logo({
         width: "auto",
         objectFit: "contain",
         display: "block",
+        filter: variant === "white" ? "brightness(0) invert(1)" : undefined,
       }}
     />
   );
