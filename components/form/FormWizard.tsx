@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { studentSchema, obraSchema } from "@/lib/validations/submission.schema";
 import { CATEGORIAS, CATEGORIA_LABELS, GRADOS } from "@/lib/constants";
@@ -49,29 +49,40 @@ const INITIAL_DATA: WizardData = {
 
 type Errors = Partial<Record<keyof WizardData, string>>;
 
-const DECLARACIONES = [
+type DeclarationKey =
+  | "declaration_original"
+  | "declaration_no_ai"
+  | "declaration_terms"
+  | "declaration_evaluation"
+  | "declaration_publication";
+
+const DECLARACIONES: {
+  key: DeclarationKey;
+  title: string;
+  text: string;
+}[] = [
   {
-    key: "declaration_original" as const,
+    key: "declaration_original",
     title: "Originalidad",
     text: "Declaro que la obra es original y de mi autoría.",
   },
   {
-    key: "declaration_no_ai" as const,
+    key: "declaration_no_ai",
     title: "Inteligencia artificial",
     text: "Declaro que la obra no fue generada total ni parcialmente con inteligencia artificial.",
   },
   {
-    key: "declaration_terms" as const,
+    key: "declaration_terms",
     title: "Bases y condiciones",
     text: "Acepto las bases y condiciones del concurso.",
   },
   {
-    key: "declaration_evaluation" as const,
+    key: "declaration_evaluation",
     title: "Lectura del jurado",
     text: "Autorizo la lectura y evaluación de la obra por parte del jurado.",
   },
   {
-    key: "declaration_publication" as const,
+    key: "declaration_publication",
     title: "Publicación institucional",
     text: "Autorizo la publicación de obras seleccionadas en la antología digital y materiales institucionales.",
   },
@@ -144,6 +155,7 @@ export default function FormWizard() {
 
     const obraResult = obraSchema.safeParse({
       category: data.category,
+      subcategory: data.subcategory,
       title: data.title,
       pseudonym: data.pseudonym,
     });
@@ -153,10 +165,6 @@ export default function FormWizard() {
         const field = issue.path[0] as keyof WizardData;
         if (!nextErrors[field]) nextErrors[field] = issue.message;
       }
-    }
-
-    if (!data.subcategory) {
-      nextErrors.subcategory = "Elegí el tema específico de tu obra.";
     }
 
     if (!data.file) {
@@ -176,7 +184,7 @@ export default function FormWizard() {
     return Object.keys(nextErrors).length === 0 && Boolean(data.file);
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitError(null);
 
@@ -247,7 +255,9 @@ export default function FormWizard() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.formIntro}>
         <p className={styles.script}>Un solo envío, una obra lista para leer.</p>
+
         <h2>Formulario de participación</h2>
+
         <p>
           Completá tus datos, identificá la obra y subí el archivo final. El
           jurado leerá el texto sin tu nombre ni el de tu colegio.
@@ -263,6 +273,7 @@ export default function FormWizard() {
       <section className={styles.panel}>
         <div className={styles.panelHeader}>
           <span className={styles.number}>01</span>
+
           <div>
             <h3>Tus datos</h3>
             <p>Quedan solo en el formulario de inscripción.</p>
@@ -272,13 +283,17 @@ export default function FormWizard() {
         <div className={styles.grid}>
           <div className={styles.field}>
             <label htmlFor="student_name">Nombre y apellido</label>
+
             <input
               id="student_name"
               value={data.student_name}
-              onChange={(e) => updateData({ student_name: e.target.value })}
+              onChange={(event) =>
+                updateData({ student_name: event.target.value })
+              }
               placeholder="Tu nombre completo"
               className={errors.student_name ? styles.inputError : ""}
             />
+
             {errors.student_name && (
               <p className={styles.errorText}>{errors.student_name}</p>
             )}
@@ -286,14 +301,18 @@ export default function FormWizard() {
 
           <div className={styles.field}>
             <label htmlFor="student_email">Email institucional</label>
+
             <input
               id="student_email"
               type="email"
               value={data.student_email}
-              onChange={(e) => updateData({ student_email: e.target.value })}
+              onChange={(event) =>
+                updateData({ student_email: event.target.value })
+              }
               placeholder="nombre@colegio.edu.ar"
               className={errors.student_email ? styles.inputError : ""}
             />
+
             {errors.student_email && (
               <p className={styles.errorText}>{errors.student_email}</p>
             )}
@@ -301,10 +320,13 @@ export default function FormWizard() {
 
           <div className={styles.field}>
             <label htmlFor="student_grade">Curso</label>
+
             <select
               id="student_grade"
               value={data.student_grade}
-              onChange={(e) => updateData({ student_grade: e.target.value })}
+              onChange={(event) =>
+                updateData({ student_grade: event.target.value })
+              }
               className={errors.student_grade ? styles.inputError : ""}
             >
               <option value="">Elegí tu curso</option>
@@ -314,6 +336,7 @@ export default function FormWizard() {
                 </option>
               ))}
             </select>
+
             {errors.student_grade && (
               <p className={styles.errorText}>{errors.student_grade}</p>
             )}
@@ -321,13 +344,15 @@ export default function FormWizard() {
 
           <div className={styles.field}>
             <label htmlFor="school">Colegio</label>
+
             <input
               id="school"
               value={data.school}
-              onChange={(e) => updateData({ school: e.target.value })}
+              onChange={(event) => updateData({ school: event.target.value })}
               placeholder="Nombre del colegio"
               className={errors.school ? styles.inputError : ""}
             />
+
             {errors.school && (
               <p className={styles.errorText}>{errors.school}</p>
             )}
@@ -337,10 +362,13 @@ export default function FormWizard() {
             <label htmlFor="teacher_name">
               Docente referente <span>(opcional)</span>
             </label>
+
             <input
               id="teacher_name"
               value={data.teacher_name}
-              onChange={(e) => updateData({ teacher_name: e.target.value })}
+              onChange={(event) =>
+                updateData({ teacher_name: event.target.value })
+              }
               placeholder="Nombre del docente que acompaña la participación"
             />
           </div>
@@ -350,21 +378,25 @@ export default function FormWizard() {
       <section className={styles.panel}>
         <div className={styles.panelHeader}>
           <span className={styles.number}>02</span>
+
           <div>
             <h3>Tu obra</h3>
-            <p>Seleccioná la categoría, el tema específico y los datos del texto.</p>
+            <p>
+              Seleccioná la categoría, el tema específico y los datos del texto.
+            </p>
           </div>
         </div>
 
         <div className={styles.grid}>
           <div className={styles.field}>
             <label htmlFor="category">Categoría</label>
+
             <select
               id="category"
               value={data.category}
-              onChange={(e) =>
+              onChange={(event) =>
                 updateData({
-                  category: e.target.value,
+                  category: event.target.value,
                   subcategory: "",
                 })
               }
@@ -377,6 +409,7 @@ export default function FormWizard() {
                 </option>
               ))}
             </select>
+
             {errors.category && (
               <p className={styles.errorText}>{errors.category}</p>
             )}
@@ -384,10 +417,13 @@ export default function FormWizard() {
 
           <div className={styles.field}>
             <label htmlFor="subcategory">Tema específico</label>
+
             <select
               id="subcategory"
               value={data.subcategory}
-              onChange={(e) => updateData({ subcategory: e.target.value })}
+              onChange={(event) =>
+                updateData({ subcategory: event.target.value })
+              }
               disabled={!data.category}
               className={errors.subcategory ? styles.inputError : ""}
             >
@@ -403,6 +439,7 @@ export default function FormWizard() {
                 </option>
               ))}
             </select>
+
             {errors.subcategory && (
               <p className={styles.errorText}>{errors.subcategory}</p>
             )}
@@ -410,28 +447,37 @@ export default function FormWizard() {
 
           <div className={styles.field}>
             <label htmlFor="title">Título de la obra</label>
+
             <input
               id="title"
               value={data.title}
-              onChange={(e) => updateData({ title: e.target.value })}
+              onChange={(event) => updateData({ title: event.target.value })}
               placeholder="El nombre de tu texto"
               className={errors.title ? styles.inputError : ""}
             />
-            {errors.title && <p className={styles.errorText}>{errors.title}</p>}
+
+            {errors.title && (
+              <p className={styles.errorText}>{errors.title}</p>
+            )}
           </div>
 
           <div className={styles.field}>
             <label htmlFor="pseudonym">Seudónimo</label>
+
             <input
               id="pseudonym"
               value={data.pseudonym}
-              onChange={(e) => updateData({ pseudonym: e.target.value })}
+              onChange={(event) =>
+                updateData({ pseudonym: event.target.value })
+              }
               placeholder="Con qué firmás tu obra"
               className={errors.pseudonym ? styles.inputError : ""}
             />
+
             {errors.pseudonym && (
               <p className={styles.errorText}>{errors.pseudonym}</p>
             )}
+
             <p className={styles.hint}>Así aparecerá tu obra ante el jurado.</p>
           </div>
         </div>
@@ -440,6 +486,7 @@ export default function FormWizard() {
       <section className={styles.panel}>
         <div className={styles.panelHeader}>
           <span className={styles.number}>03</span>
+
           <div>
             <h3>Archivo</h3>
             <p>Subí el documento final de tu obra.</p>
@@ -464,6 +511,7 @@ export default function FormWizard() {
       <section className={styles.panel}>
         <div className={styles.panelHeader}>
           <span className={styles.number}>04</span>
+
           <div>
             <h3>Declaraciones</h3>
             <p>Son obligatorias para poder participar.</p>
@@ -476,8 +524,8 @@ export default function FormWizard() {
               <input
                 type="checkbox"
                 checked={data[declaracion.key]}
-                onChange={(e) =>
-                  updateData({ [declaracion.key]: e.target.checked })
+                onChange={(event) =>
+                  updateData({ [declaracion.key]: event.target.checked })
                 }
               />
 
@@ -489,7 +537,7 @@ export default function FormWizard() {
           ))}
         </div>
 
-        {DECLARACIONES.some((d) => errors[d.key]) && (
+        {DECLARACIONES.some((declaracion) => errors[declaracion.key]) && (
           <p className={styles.errorText}>
             Tenés que aceptar las 5 declaraciones para continuar.
           </p>
@@ -499,6 +547,7 @@ export default function FormWizard() {
       <div className={styles.finalBox}>
         <div>
           <p className={styles.finalTitle}>Antes de enviar</p>
+
           <p>
             Revisá que el archivo sea el correcto. Al enviar, vas a recibir un
             código de confirmación para identificar tu participación.
