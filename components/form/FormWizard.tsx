@@ -7,6 +7,7 @@ import PasoDatosEstudiante from "./PasoDatosEstudiante";
 import PasoDatosObra from "./PasoDatosObra";
 import PasoDeclaraciones from "./PasoDeclaraciones";
 import PasoRevision from "./PasoRevision";
+import styles from "./FormWizard.module.css";
 
 export type WizardData = {
   // Paso 1
@@ -15,11 +16,13 @@ export type WizardData = {
   student_grade: string;
   school: string;
   teacher_name: string;
+
   // Paso 2
   category: string;
   title: string;
   pseudonym: string;
   file: File | null;
+
   // Paso 3
   declaration_original: boolean;
   declaration_no_ai: boolean;
@@ -80,8 +83,14 @@ export default function FormWizard() {
       formData.append("declaration_original", String(data.declaration_original));
       formData.append("declaration_no_ai", String(data.declaration_no_ai));
       formData.append("declaration_terms", String(data.declaration_terms));
-      formData.append("declaration_evaluation", String(data.declaration_evaluation));
-      formData.append("declaration_publication", String(data.declaration_publication));
+      formData.append(
+        "declaration_evaluation",
+        String(data.declaration_evaluation)
+      );
+      formData.append(
+        "declaration_publication",
+        String(data.declaration_publication)
+      );
 
       if (data.file) {
         formData.append("file", data.file, data.file.name);
@@ -112,8 +121,8 @@ export default function FormWizard() {
   }
 
   return (
-    <div>
-      <ProgressBar currentStep={step} />
+    <div className={styles.wizard}>
+      <ProgressBar currentStep={step} totalSteps={4} />
 
       {step === 1 && (
         <PasoDatosEstudiante
