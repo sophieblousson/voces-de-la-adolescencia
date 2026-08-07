@@ -8,22 +8,22 @@ import styles from "./Header.module.css";
 const NAV_LINKS = [
   { href: "/", label: "Inicio" },
   { href: "/bases", label: "Bases" },
+  { href: "/participar", label: "Participar" },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className={styles.header}>
-      <div className={styles.brandLine} aria-hidden="true" />
-
-      <div className={styles.inner}>
-        <Link href="/" className={styles.brand} onClick={() => setOpen(false)}>
+    <header className={styles.topbar}>
+      <div className={styles.wrap}>
+        <Link
+          href="/"
+          className={styles.logoLink}
+          aria-label="Ir al inicio"
+          onClick={() => setOpen(false)}
+        >
           <Logo size="sm" />
-          <span className={styles.brandText}>
-            <span className={styles.brandKicker}>Active Learning</span>
-            <span className={styles.brandName}>Voces de la Adolescencia</span>
-          </span>
         </Link>
 
         <button
@@ -32,16 +32,17 @@ export default function Header() {
           aria-expanded={open}
           aria-controls="nav-principal"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpen((value) => !value)}
         >
-          <span className={`${styles.toggleBar} ${open ? styles.toggleBarOpenTop : ""}`} />
-          <span className={`${styles.toggleBar} ${open ? styles.toggleBarOpenHide : ""}`} />
-          <span className={`${styles.toggleBar} ${open ? styles.toggleBarOpenBottom : ""}`} />
+          <span />
+          <span />
+          <span />
         </button>
 
         <nav
           id="nav-principal"
           className={`${styles.nav} ${open ? styles.navOpen : ""}`}
+          aria-label="Navegación principal"
         >
           {NAV_LINKS.map((link) => (
             <Link
@@ -53,14 +54,6 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-
-          <Link
-            href="/participar"
-            className={styles.navCta}
-            onClick={() => setOpen(false)}
-          >
-            Participar
-          </Link>
         </nav>
       </div>
     </header>
