@@ -415,4 +415,27 @@
 .checkboxText span {
   color: #6b7180;
 }
+  .summaryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.finalNotice {
+  margin-top: 8px;
+  padding: 14px 16px;
+  background: #fbf1dd;
+  border-left: 3px solid var(--color-marigold-dark);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.finalNotice p {
+  margin: 0;
+  color: #5c4a1f;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
 }
