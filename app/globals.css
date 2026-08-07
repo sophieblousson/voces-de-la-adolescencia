@@ -22,38 +22,34 @@ body {
   font-family: var(--font-principal);
   font-size: var(--fs-base);
   font-weight: var(--fw-regular);
-  color: var(--color-texto-principal);
-  background:
-    var(--texture-dots) 0 0 / 22px 22px,
-    var(--gradient-hero);
+  color: var(--color-charcoal);
+  background: var(--color-paper);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.94)),
-    radial-gradient(circle at 12% 16%, rgba(255, 213, 0, 0.12), transparent 26%),
-    radial-gradient(circle at 82% 10%, rgba(57, 169, 220, 0.14), transparent 30%),
-    radial-gradient(circle at 78% 78%, rgba(151, 191, 13, 0.12), transparent 32%);
 }
 
 h1,
 h2,
 h3,
 h4 {
+  margin: 0 0 var(--space-4);
+  color: var(--color-ink);
+  line-height: 1.08;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+h3,
+h4 {
   font-family: var(--font-principal);
   font-weight: var(--fw-bold);
-  color: var(--color-texto-principal);
-  margin: 0 0 var(--space-4);
-  letter-spacing: -0.035em;
-  line-height: 1.05;
 }
 
 h1 {
@@ -61,11 +57,11 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-size: clamp(2rem, 4vw, 3rem);
 }
 
 h3 {
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
 }
 
 p {
@@ -99,34 +95,32 @@ img {
 }
 
 ::selection {
-  color: var(--color-negro);
-  background: rgba(255, 213, 0, 0.48);
+  color: var(--color-ink);
+  background: rgba(242, 169, 59, 0.45);
 }
 
-/* Foco visible siempre, por accesibilidad */
 :focus-visible {
-  outline: 3px solid rgba(57, 169, 220, 0.55);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-sky);
+  outline-offset: 2px;
 }
 
-/* Utilidades globales suaves */
 main {
   position: relative;
 }
 
 section {
-  scroll-margin-top: 96px;
+  scroll-margin-top: 90px;
 }
 
 input,
 textarea,
 select {
   width: 100%;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--color-texto-principal);
-  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--color-charcoal);
+  padding: 0.75rem 0.85rem;
   font-size: var(--fs-base);
   transition:
     border-color var(--transition-fast),
@@ -137,19 +131,19 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: rgba(57, 169, 220, 0.7);
-  box-shadow: 0 0 0 4px rgba(57, 169, 220, 0.14);
+  border-color: var(--color-sky);
+  box-shadow: 0 0 0 3px rgba(44, 159, 216, 0.16);
   outline: none;
   background: #ffffff;
 }
 
 label {
-  color: var(--color-texto-principal);
+  color: var(--color-ink);
 }
 
 hr {
   border: 0;
   height: 1px;
-  background: var(--color-borde);
+  background: var(--color-line);
   margin: var(--space-8) 0;
 }
