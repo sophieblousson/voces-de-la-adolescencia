@@ -438,4 +438,119 @@
   font-size: 13.5px;
   line-height: 1.55;
 }
+  .stepHeadingRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: var(--space-6);
+}
+
+.stepNumberBig {
+  flex-shrink: 0;
+  color: var(--color-marigold, #e6a128);
+  font-family: var(--font-display, "Anton", sans-serif);
+  font-size: 3rem;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+}
+
+.declarationList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.declarationCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 22px 24px;
+  border: 1px solid rgba(19, 42, 99, 0.15);
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.declarationCard:hover {
+  border-color: rgba(19, 42, 99, 0.28);
+}
+
+.declarationCardChecked {
+  border-color: var(--color-marigold, #e6a128);
+  background: #fffaf0;
+  box-shadow: 0 8px 20px rgba(19, 42, 99, 0.06);
+}
+
+.declarationInput {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.declarationCheckbox {
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid rgba(19, 42, 99, 0.35);
+  border-radius: 6px;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-navy, #132a63);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.declarationCheckboxChecked {
+  background: var(--color-marigold, #e6a128);
+  border-color: var(--color-marigold, #e6a128);
+  color: var(--color-navy, #132a63);
+}
+
+.declarationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.declarationTitle {
+  color: var(--color-navy, #132a63);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.declarationText {
+  color: #4f6183;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .stepHeadingRow {
+    gap: 14px;
+  }
+
+  .stepNumberBig {
+    font-size: 2.5rem;
+  }
+
+  .declarationCard {
+    grid-template-columns: 24px 1fr;
+    padding: 18px 16px;
+  }
+
+  .declarationTitle {
+    font-size: 0.98rem;
+  }
+
+  .declarationText {
+    font-size: 0.95rem;
+  }
+}
 }
