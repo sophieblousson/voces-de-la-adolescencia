@@ -15,6 +15,7 @@ export type WizardData = {
   teacher_name: string;
 
   category: string;
+  subcategory: string;
   title: string;
   pseudonym: string;
   file: File | null;
@@ -32,10 +33,13 @@ const INITIAL_DATA: WizardData = {
   student_grade: "",
   school: "",
   teacher_name: "",
+
   category: "",
+  subcategory: "",
   title: "",
   pseudonym: "",
   file: null,
+
   declaration_original: false,
   declaration_no_ai: false,
   declaration_terms: false,
@@ -73,6 +77,38 @@ const DECLARACIONES = [
   },
 ];
 
+const SUBCATEGORIAS = {
+  poesia: [
+    "Personas y naturaleza",
+    "Dolores y alegrías de la libertad personal",
+    "El paso del tiempo y nuestra identidad",
+  ],
+  cuento: [
+    "Un hecho histórico argentino contado en primera persona",
+    "La verdad tenía otra versión",
+    "Un encuentro imposible",
+  ],
+  ensayo: [
+    "Logros y desafíos de la democracia argentina",
+    "El impacto del avance tecnológico en la felicidad de las personas",
+    "Desafíos de la educación del futuro",
+  ],
+};
+
+function getCategoriaLabel(category: string) {
+  return CATEGORIA_LABELS[category as keyof typeof CATEGORIA_LABELS] ?? "";
+}
+
+function getSubcategorias(category: string) {
+  const label = getCategoriaLabel(category);
+
+  if (label === "Poesía") return SUBCATEGORIAS.poesia;
+  if (label === "Cuento breve") return SUBCATEGORIAS.cuento;
+  if (label === "Ensayo personal") return SUBCATEGORIAS.ensayo;
+
+  return [];
+}
+
 export default function FormWizard() {
   const router = useRouter();
 
@@ -81,6 +117,8 @@ export default function FormWizard() {
   const [fileError, setFileError] = useState<string | undefined>(undefined);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const subcategoriasDisponibles = getSubcategorias(data.category);
 
   function updateData(patch: Partial<WizardData>) {
     setData((prev) => ({ ...prev, ...patch }));
@@ -115,6 +153,10 @@ export default function FormWizard() {
         const field = issue.path[0] as keyof WizardData;
         if (!nextErrors[field]) nextErrors[field] = issue.message;
       }
+    }
+
+    if (!data.subcategory) {
+      nextErrors.subcategory = "Elegí el tema específico de tu obra.";
     }
 
     if (!data.file) {
@@ -158,6 +200,7 @@ export default function FormWizard() {
       formData.append("school", data.school);
       formData.append("teacher_name", data.teacher_name);
       formData.append("category", data.category);
+      formData.append("subcategory", data.subcategory);
       formData.append("title", data.title);
       formData.append("pseudonym", data.pseudonym);
       formData.append("declaration_original", String(data.declaration_original));
@@ -309,17 +352,22 @@ export default function FormWizard() {
           <span className={styles.number}>02</span>
           <div>
             <h3>Tu obra</h3>
-            <p>Estos datos identifican el texto que vas a enviar.</p>
+            <p>Seleccioná la categoría, el tema específico y los datos del texto.</p>
           </div>
         </div>
 
         <div className={styles.grid}>
-          <div className={`${styles.field} ${styles.full}`}>
+          <div className={styles.field}>
             <label htmlFor="category">Categoría</label>
             <select
               id="category"
               value={data.category}
-              onChange={(e) => updateData({ category: e.target.value })}
+              onChange={(e) =>
+                updateData({
+                  category: e.target.value,
+                  subcategory: "",
+                })
+              }
               className={errors.category ? styles.inputError : ""}
             >
               <option value="">Elegí una categoría</option>
@@ -331,6 +379,32 @@ export default function FormWizard() {
             </select>
             {errors.category && (
               <p className={styles.errorText}>{errors.category}</p>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="subcategory">Tema específico</label>
+            <select
+              id="subcategory"
+              value={data.subcategory}
+              onChange={(e) => updateData({ subcategory: e.target.value })}
+              disabled={!data.category}
+              className={errors.subcategory ? styles.inputError : ""}
+            >
+              <option value="">
+                {data.category
+                  ? "Elegí el tema de tu obra"
+                  : "Primero elegí una categoría"}
+              </option>
+
+              {subcategoriasDisponibles.map((tema) => (
+                <option key={tema} value={tema}>
+                  {tema}
+                </option>
+              ))}
+            </select>
+            {errors.subcategory && (
+              <p className={styles.errorText}>{errors.subcategory}</p>
             )}
           </div>
 
