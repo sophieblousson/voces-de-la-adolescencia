@@ -19,14 +19,14 @@ export default function ConfirmacionPage({
 
   return (
     <section className={styles.page}>
-      <div className={styles.inner}>
+      <div className={styles.wrap}>
         <p className={styles.eyebrow}>Participación registrada</p>
 
-        <h1 className={styles.title}>Tu obra fue enviada</h1>
+        <h1>Tu obra fue enviada</h1>
 
         <p className={styles.lead}>
-          Guardá este código: lo vas a necesitar para cualquier consulta
-          sobre tu participación.
+          Guardá este código: es la referencia de tu participación dentro del
+          concurso.
         </p>
 
         <div className={styles.codeCard}>
@@ -37,27 +37,28 @@ export default function ConfirmacionPage({
           <p className={styles.codeValue}>{code || "VDA-2026-XXXXX"}</p>
 
           <p className={styles.codeHelp}>
-            Recomendamos hacer una captura de pantalla o anotarlo en un
-            lugar seguro.
+            Hacé una captura de pantalla o anotalo en un lugar seguro.
           </p>
         </div>
 
         <div className={styles.infoGrid}>
-          <div className={styles.infoBox}>
-            <h2 className={styles.infoTitle}>¿Qué sigue ahora?</h2>
+          <article className={styles.infoBox}>
+            <p className={styles.infoNumber}>01</p>
+            <h2>Qué sigue ahora</h2>
             <p>
               Tu obra ya quedó registrada correctamente. El jurado la leerá
               dentro de los plazos establecidos en las bases.
             </p>
-          </div>
+          </article>
 
-          <div className={styles.infoBox}>
-            <h2 className={styles.infoTitle}>Importante</h2>
+          <article className={styles.infoBox}>
+            <p className={styles.infoNumber}>02</p>
+            <h2>Importante</h2>
             <p>
               No vamos a reenviar este código por otro medio. Guardalo porque
-              es la referencia de tu participación dentro del concurso.
+              identifica tu participación.
             </p>
-          </div>
+          </article>
         </div>
 
         <div className={styles.actions}>
