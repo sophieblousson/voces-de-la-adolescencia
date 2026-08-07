@@ -132,6 +132,12 @@
   outline: none;
 }
 
+.field select:disabled {
+  background: #f3f0e8;
+  color: #8a8f9c;
+  cursor: not-allowed;
+}
+
 .inputError {
   border-color: var(--color-error) !important;
 }
@@ -173,20 +179,54 @@
 .declaration {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 15px 16px;
+  gap: 14px;
+  padding: 18px 18px;
   background: #ffffff;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.declaration:hover {
+  border-color: rgba(21, 37, 72, 0.28);
+}
+
+.declaration:has(input:checked) {
+  border-color: var(--color-marigold);
+  background: #fffaf0;
+  box-shadow: 0 8px 20px rgba(21, 37, 72, 0.06);
 }
 
 .declaration input {
+  appearance: none;
   flex: none;
-  width: 18px;
-  height: 18px;
-  margin-top: 3px;
-  accent-color: var(--color-marigold);
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border: 1.5px solid rgba(21, 37, 72, 0.35);
+  border-radius: 5px;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.declaration input:checked {
+  background: var(--color-marigold);
+  border-color: var(--color-marigold);
+}
+
+.declaration input:checked::after {
+  content: "✓";
+  color: var(--color-ink);
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .declaration span {
@@ -204,35 +244,84 @@
 }
 
 .finalBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
   gap: 28px;
-  margin-top: 34px;
-  padding: 24px;
+  align-items: center;
+  margin-top: 38px;
+  padding: 30px;
   background: var(--color-ink);
   border-radius: var(--radius-md);
+  border-bottom: 5px solid var(--color-marigold);
 }
 
-.finalBox p {
-  margin: 0;
-  color: #d9e0ef;
-  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+.finalContent {
+  min-width: 0;
+}
+
+.finalKicker {
+  margin: 0 0 6px;
+  color: var(--color-marigold);
+  font-family: var(--font-caveat), cursive;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .finalTitle {
-  margin-bottom: 4px !important;
-  color: var(--color-marigold) !important;
-  font-family: var(--font-anton), Impact, sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 400 !important;
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.05;
   text-transform: uppercase;
 }
 
-.finalBox button {
-  flex: none;
+.finalText {
+  max-width: 620px;
+  margin: 0;
+  color: #d9e0ef;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.finalChecklist {
+  display: grid;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finalChecklist li {
+  position: relative;
+  padding-left: 22px;
+  color: #d9e0ef;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.finalChecklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-marigold);
+  font-weight: 700;
+}
+
+.finalAction {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.finalAction button {
+  width: 100%;
   border: none;
   border-radius: 2px;
   background: var(--color-marigold);
@@ -241,19 +330,33 @@
   font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 700;
-  padding: 14px 24px;
+  padding: 15px 22px;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.finalBox button:hover {
+.finalAction button:hover {
   background: var(--color-marigold-dark);
+  transform: translate(-1px, -1px);
 }
 
-.finalBox button:disabled {
+.finalAction button:disabled {
   background: #ddd5c7;
   color: #8a8f9c;
   cursor: not-allowed;
   box-shadow: none;
+  transform: none;
+}
+
+.finalAction p {
+  margin: 0;
+  color: #aebbd5;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .submitError {
@@ -274,11 +377,11 @@
   }
 
   .finalBox {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
   }
 
-  .finalBox button {
+  .finalAction button {
     width: 100%;
   }
 }
