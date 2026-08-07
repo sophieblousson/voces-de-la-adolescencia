@@ -16,7 +16,12 @@ type PasoDatosObraProps = {
 
 type Errors = Partial<Record<keyof WizardData, string>>;
 
-export default function PasoDatosObra({ data, onChange, onNext, onBack }: PasoDatosObraProps) {
+export default function PasoDatosObra({
+  data,
+  onChange,
+  onNext,
+  onBack,
+}: PasoDatosObraProps) {
   const [errors, setErrors] = useState<Errors>({});
   const [fileError, setFileError] = useState<string | undefined>(undefined);
 
@@ -52,64 +57,98 @@ export default function PasoDatosObra({ data, onChange, onNext, onBack }: PasoDa
   }
 
   return (
-    <div className={styles.step}>
-      <h1 className={styles.stepTitle}>Tu obra</h1>
-      <p className={styles.stepDescription}>
-        La entrega principal es el archivo. Los campos de acá son para
-        identificar la obra, no para escribirla.
-      </p>
+    <div className={styles.stepBlock}>
+      <div className={styles.blockTitle}>
+        <span className={styles.blockNumber}>2</span>
 
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor="category">
-          Categoría
-        </label>
-        <select
-          id="category"
-          className={`${styles.select} ${errors.category ? styles.inputError : ""}`}
-          value={data.category}
-          onChange={(e) => onChange({ category: e.target.value })}
-        >
-          <option value="">Elegí una categoría</option>
-          {CATEGORIAS.map((cat) => (
-            <option key={cat} value={cat}>
-              {CATEGORIA_LABELS[cat]}
-            </option>
-          ))}
-        </select>
-        {errors.category && <p className={styles.errorText}>{errors.category}</p>}
+        <div>
+          <h2>Tu obra</h2>
+          <p>
+            Elegí la categoría y completá el título y seudónimo con los que se
+            identificará tu texto.
+          </p>
+        </div>
       </div>
 
-      <div className={styles.row}>
+      <div className={styles.grid2}>
+        <div className={`${styles.field} ${styles.full}`}>
+          <label className={styles.label} htmlFor="category">
+            Categoría
+          </label>
+
+          <select
+            id="category"
+            className={`${styles.select} ${
+              errors.category ? styles.inputError : ""
+            }`}
+            value={data.category}
+            onChange={(e) => onChange({ category: e.target.value })}
+          >
+            <option value="">Elegí una categoría</option>
+            {CATEGORIAS.map((cat) => (
+              <option key={cat} value={cat}>
+                {CATEGORIA_LABELS[cat]}
+              </option>
+            ))}
+          </select>
+
+          {errors.category && (
+            <p className={styles.errorText}>{errors.category}</p>
+          )}
+        </div>
+
         <div className={styles.field}>
           <label className={styles.label} htmlFor="title">
             Título de la obra
           </label>
+
           <input
             id="title"
             className={`${styles.input} ${errors.title ? styles.inputError : ""}`}
             value={data.title}
             onChange={(e) => onChange({ title: e.target.value })}
+            placeholder="El nombre de tu texto"
           />
+
           {errors.title && <p className={styles.errorText}>{errors.title}</p>}
         </div>
 
         <div className={styles.field}>
           <label className={styles.label} htmlFor="pseudonym">
-            Seudónimo
+            Seudónimo <span className={styles.optional}>(no tu nombre real)</span>
           </label>
+
           <input
             id="pseudonym"
-            className={`${styles.input} ${errors.pseudonym ? styles.inputError : ""}`}
+            className={`${styles.input} ${
+              errors.pseudonym ? styles.inputError : ""
+            }`}
             value={data.pseudonym}
             onChange={(e) => onChange({ pseudonym: e.target.value })}
+            placeholder="Con qué firmás tu obra"
           />
-          {errors.pseudonym && <p className={styles.errorText}>{errors.pseudonym}</p>}
+
+          {errors.pseudonym && (
+            <p className={styles.errorText}>{errors.pseudonym}</p>
+          )}
+
           <p className={styles.hint}>Así vas a aparecer para el jurado.</p>
         </div>
       </div>
 
-      <div className={styles.field}>
-        <label className={styles.label}>Archivo de la obra</label>
+      <div className={styles.fileBlock}>
+        <div className={styles.blockTitleSmall}>
+          <span className={styles.blockNumber}>3</span>
+
+          <div>
+            <h2>Subí el archivo</h2>
+            <p>
+              Word (.doc / .docx) o PDF editable. Sin tu nombre ni el del
+              colegio dentro del texto.
+            </p>
+          </div>
+        </div>
+
         <FileUpload
           file={data.file}
           error={fileError}
@@ -118,12 +157,12 @@ export default function PasoDatosObra({ data, onChange, onNext, onBack }: PasoDa
             setFileError(error);
           }}
         />
-        <div className={styles.calloutBox} style={{ marginTop: "var(--space-4)" }}>
+
+        <div className={styles.calloutBox}>
           <p>
-            El archivo va en Word (.doc/.docx) o PDF editable, e incluye
-            título y seudónimo en la primera página. <strong>No</strong>{" "}
-            incluyas tu nombre ni el colegio dentro del archivo: esos datos
-            ya quedaron en el paso anterior.
+            El archivo debe incluir título y seudónimo en la primera página.
+            <strong> No</strong> incluyas tu nombre ni el colegio dentro del
+            archivo: esos datos ya quedaron en el paso anterior.
           </p>
         </div>
       </div>
@@ -136,12 +175,13 @@ export default function PasoDatosObra({ data, onChange, onNext, onBack }: PasoDa
         >
           Atrás
         </button>
+
         <button
           type="button"
           className={`${styles.button} ${styles.buttonPrimary}`}
           onClick={handleNext}
         >
-          Siguiente
+          Siguiente →
         </button>
       </div>
     </div>
