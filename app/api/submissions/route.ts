@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server";
-import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { submissionServerSchema } from "@/lib/validations/submission.schema";
 import { validateFileMeta } from "@/lib/validations/file.schema";
-import { generateUniqueCode } from "@/lib/utils/generateCode";
-import { sanitizeFileName } from "@/lib/utils/sanitizeFileName";
-import { STORAGE_BUCKET_OBRAS, STORAGE_PATH_YEAR } from "@/lib/constants";
 
-/**
- * POST /api/submissions
- *
- * Flujo:
- * 1. Parsear multipart/form-data.
- * 2. Validar campos de texto con Zod.
- * 3. Validar archivo.
- * 4. Generar código único.
- * 5. Insertar inscripción inicial.
- * 6. Subir archivo a Storage.
- * 7. Actualizar inscripción con datos del archivo.
- * 8. Responder { code }.
- */
 export async function POST(request: Request) {
   let formData: FormData;
 
@@ -61,8 +44,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const data = parsed.data;
-
   const fileEntry = formData.get("file");
 
   if (!(fileEntry instanceof File) || fileEntry.size === 0) {
@@ -85,108 +66,56 @@ export async function POST(request: Request) {
     );
   }
 
-  let supabase: ReturnType<typeof createAdminSupabaseClient>;
-  let code: string;
+  const googleScriptUrl = process.env.GOOGLE_SCRIPT_URL;
 
-  try {
-    supabase = createAdminSupabaseClient();
-    code = await generateUniqueCode(supabase);
-  } catch (err) {
+  if (!googleScriptUrl) {
     return NextResponse.json(
-      {
-        error:
-          err instanceof Error
-            ? err.message
-            : "No se pudo generar el código de participación.",
-      },
+      { error: "Falta configurar GOOGLE_SCRIPT_URL en Vercel." },
       { status: 500 }
     );
   }
 
-  const submissionInsert = {
-    code,
+  const arrayBuffer = await fileEntry.arrayBuffer();
+  const fileBase64 = Buffer.from(arrayBuffer).toString("base64");
 
-    student_name: data.student_name,
-    student_email: data.student_email,
-    student_grade: data.student_grade,
-    school: data.school,
-    teacher_name: data.teacher_name || null,
-
-    category: data.category,
-    subcategory: data.subcategory,
-    title: data.title,
-    pseudonym: data.pseudonym,
-
-    file_path: null,
-    file_name: null,
-    file_type: null,
-    file_size: null,
-
-    declaration_original: data.declaration_original,
-    declaration_no_ai: data.declaration_no_ai,
-    declaration_terms: data.declaration_terms,
-    declaration_evaluation: data.declaration_evaluation,
-    declaration_publication: data.declaration_publication,
-
-    internal_notes: null,
+  const payload = {
+    ...parsed.data,
+    file_name: fileEntry.name,
+    file_type: fileEntry.type || "application/octet-stream",
+    file_size: fileEntry.size,
+    file_base64: fileBase64,
   };
 
-  const { data: inserted, error: insertError } = await supabase
-    .from("submissions")
-    .insert(submissionInsert as any)
-    .select("id")
-    .single();
+  try {
+    const response = await fetch(googleScriptUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify(payload),
+    });
 
-  if (insertError || !inserted) {
+    const result = await response.json().catch(() => null);
+
+    if (!response.ok || !result?.ok) {
+      return NextResponse.json(
+        {
+          error:
+            result?.error ??
+            "No pudimos registrar tu participación. Probá de nuevo.",
+        },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ code: result.code }, { status: 200 });
+  } catch {
     return NextResponse.json(
       {
         error:
-          "No pudimos registrar tu inscripción. Probá de nuevo en unos minutos.",
+          "No pudimos conectar con el registro de participaciones. Probá de nuevo.",
       },
       { status: 500 }
     );
   }
-
-  const submissionId = inserted.id;
-
-  const cleanFileName = sanitizeFileName(fileEntry.name);
-  const filePath = `${STORAGE_PATH_YEAR}/${code}/${cleanFileName}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from(STORAGE_BUCKET_OBRAS)
-    .upload(filePath, fileEntry, {
-      contentType: fileEntry.type || undefined,
-      upsert: false,
-    });
-
-  if (uploadError) {
-    await supabase.from("submissions").delete().eq("id", submissionId);
-
-    return NextResponse.json(
-      { error: "No pudimos subir tu archivo. Probá de nuevo." },
-      { status: 500 }
-    );
-  }
-
-  const { error: updateError } = await supabase
-    .from("submissions")
-    .update({
-      file_path: filePath,
-      file_name: cleanFileName,
-      file_type: fileValidation.tipo,
-      file_size: fileEntry.size,
-    })
-    .eq("id", submissionId);
-
-  if (updateError) {
-    await supabase.storage.from(STORAGE_BUCKET_OBRAS).remove([filePath]);
-    await supabase.from("submissions").delete().eq("id", submissionId);
-
-    return NextResponse.json(
-      { error: "No pudimos completar tu inscripción. Probá de nuevo." },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ code }, { status: 200 });
 }
