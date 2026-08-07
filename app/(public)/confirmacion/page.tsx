@@ -1,5 +1,4 @@
-import Section from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
+import Link from "next/link";
 import styles from "./confirmacion.module.css";
 
 export const metadata = {
@@ -7,64 +6,70 @@ export const metadata = {
 };
 
 type ConfirmacionPageProps = {
-  searchParams: { code?: string };
+  searchParams?: {
+    code?: string | string[];
+  };
 };
 
-export default function ConfirmacionPage({ searchParams }: ConfirmacionPageProps) {
-  const code = searchParams.code?.trim();
-
-  if (!code) {
-    return (
-      <Section variant="white">
-        <div className={styles.wrapper}>
-          <h1 className={styles.title}>No encontramos tu código</h1>
-          <p className={styles.text}>
-            Si ya enviaste tu obra, revisá el email con el que te
-            registraste o volvé a intentar el envío. Si el problema
-            persiste, contactá al equipo organizador.
-          </p>
-          <div className={styles.ctas}>
-            <Button href="/participar" variant="primary">
-              Ir al formulario
-            </Button>
-            <Button href="/" variant="outline">
-              Volver al inicio
-            </Button>
-          </div>
-        </div>
-      </Section>
-    );
-  }
+export default function ConfirmacionPage({
+  searchParams,
+}: ConfirmacionPageProps) {
+  const rawCode = searchParams?.code;
+  const code = Array.isArray(rawCode) ? rawCode[0] : rawCode;
 
   return (
-    <Section variant="white">
-      <div className={styles.wrapper}>
-        <p className={styles.eyebrow}>¡Listo!</p>
+    <section className={styles.page}>
+      <div className={styles.inner}>
+        <p className={styles.eyebrow}>Participación registrada</p>
+
         <h1 className={styles.title}>Tu obra fue enviada</h1>
-        <p className={styles.text}>
+
+        <p className={styles.lead}>
           Guardá este código: lo vas a necesitar para cualquier consulta
           sobre tu participación.
         </p>
 
-        <div className={styles.codeBox}>
+        <div className={styles.codeCard}>
+          <div className={styles.status}>✓ Envío exitoso</div>
+
           <p className={styles.codeLabel}>Código de participación</p>
-          <p className={styles.code}>{code}</p>
+
+          <p className={styles.codeValue}>{code || "VDA-2026-XXXXX"}</p>
+
+          <p className={styles.codeHelp}>
+            Recomendamos hacer una captura de pantalla o anotarlo en un
+            lugar seguro.
+          </p>
         </div>
 
-        <p className={styles.reminder}>
-          Recomendamos hacer una captura de pantalla o anotarlo en un lugar
-          seguro. No lo vamos a reenviar por otro medio.
-        </p>
+        <div className={styles.infoGrid}>
+          <div className={styles.infoBox}>
+            <h2 className={styles.infoTitle}>¿Qué sigue ahora?</h2>
+            <p>
+              Tu obra ya quedó registrada correctamente. El jurado la leerá
+              dentro de los plazos establecidos en las bases.
+            </p>
+          </div>
 
-        <div className={styles.ctas}>
-          <Button href="/" variant="primary">
+          <div className={styles.infoBox}>
+            <h2 className={styles.infoTitle}>Importante</h2>
+            <p>
+              No vamos a reenviar este código por otro medio. Guardalo porque
+              es la referencia de tu participación dentro del concurso.
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.actions}>
+          <Link href="/" className={styles.primaryButton}>
             Volver al inicio
-          </Button>
-          <Button href="/participar" variant="outline">
+          </Link>
+
+          <Link href="/participar" className={styles.secondaryButton}>
             Enviar otra obra
-          </Button>
+          </Link>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
