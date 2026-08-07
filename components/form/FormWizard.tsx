@@ -130,9 +130,10 @@ export default function FormWizard() {
   const [submitting, setSubmitting] = useState(false);
 
   const subcategoriasDisponibles = getSubcategorias(data.category);
+
   const declaracionesAceptadas = DECLARACIONES.every(
-  (declaracion) => data[declaracion.key]
-);
+    (declaracion) => data[declaracion.key]
+  );
 
   function updateData(patch: Partial<WizardData>) {
     setData((prev) => ({ ...prev, ...patch }));
@@ -516,33 +517,46 @@ export default function FormWizard() {
           <span className={styles.number}>04</span>
 
           <div>
-            <h3>Declaraciones</h3>
-            <p>Son obligatorias para poder participar.</p>
+            <h3>Originalidad y autorización</h3>
+            <p>Una confirmación simple antes de enviar tu obra.</p>
           </div>
         </div>
 
-        <div className={styles.declarations}>
-          {DECLARACIONES.map((declaracion) => (
-            <label key={declaracion.key} className={styles.declaration}>
-              <input
-                type="checkbox"
-                checked={data[declaracion.key]}
-                onChange={(event) =>
-                  updateData({ [declaracion.key]: event.target.checked })
-                }
-              />
+        <div className={styles.consentBox}>
+          <label className={styles.consentCheck}>
+            <input
+              type="checkbox"
+              checked={declaracionesAceptadas}
+              onChange={(event) => {
+                const checked = event.target.checked;
 
-              <span>
-                <strong>{declaracion.title}</strong>
-                {declaracion.text}
-              </span>
-            </label>
-          ))}
+                updateData({
+                  declaration_original: checked,
+                  declaration_no_ai: checked,
+                  declaration_terms: checked,
+                  declaration_evaluation: checked,
+                  declaration_publication: checked,
+                });
+              }}
+            />
+
+            <span>
+              Confirmo que esta obra es original, que no fue generada con
+              inteligencia artificial y que acepto las bases del concurso.
+            </span>
+          </label>
+
+          <p className={styles.consentText}>
+            Al enviar la participación, autorizás la lectura de la obra por
+            parte del jurado y, si resulta seleccionada, su publicación en la
+            antología digital y materiales institucionales de Active Learning.
+            La autoría siempre será reconocida.
+          </p>
         </div>
 
         {DECLARACIONES.some((declaracion) => errors[declaracion.key]) && (
           <p className={styles.errorText}>
-            Tenés que aceptar las 5 declaraciones para continuar.
+            Tenés que aceptar esta confirmación para enviar tu obra.
           </p>
         )}
       </section>
@@ -564,7 +578,7 @@ export default function FormWizard() {
           <ul className={styles.finalChecklist}>
             <li>El archivo no incluye tu nombre ni el colegio.</li>
             <li>El título y el seudónimo están en la primera página.</li>
-            <li>Las declaraciones fueron aceptadas.</li>
+            <li>La confirmación de originalidad fue aceptada.</li>
           </ul>
         </div>
 
