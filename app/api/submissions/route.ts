@@ -103,35 +103,37 @@ export async function POST(request: Request) {
     );
   }
 
+  const submissionInsert = {
+    code,
+
+    student_name: data.student_name,
+    student_email: data.student_email,
+    student_grade: data.student_grade,
+    school: data.school,
+    teacher_name: data.teacher_name || null,
+
+    category: data.category,
+    subcategory: data.subcategory,
+    title: data.title,
+    pseudonym: data.pseudonym,
+
+    file_path: null,
+    file_name: null,
+    file_type: null,
+    file_size: null,
+
+    declaration_original: data.declaration_original,
+    declaration_no_ai: data.declaration_no_ai,
+    declaration_terms: data.declaration_terms,
+    declaration_evaluation: data.declaration_evaluation,
+    declaration_publication: data.declaration_publication,
+
+    internal_notes: null,
+  };
+
   const { data: inserted, error: insertError } = await supabase
     .from("submissions")
-    .insert({
-      code,
-
-      student_name: data.student_name,
-      student_email: data.student_email,
-      student_grade: data.student_grade,
-      school: data.school,
-      teacher_name: data.teacher_name || null,
-
-      category: data.category,
-      subcategory: data.subcategory,
-      title: data.title,
-      pseudonym: data.pseudonym,
-
-      file_path: null,
-      file_name: null,
-      file_type: null,
-      file_size: null,
-
-      declaration_original: data.declaration_original,
-      declaration_no_ai: data.declaration_no_ai,
-      declaration_terms: data.declaration_terms,
-      declaration_evaluation: data.declaration_evaluation,
-      declaration_publication: data.declaration_publication,
-
-      internal_notes: null,
-    })
+    .insert(submissionInsert as any)
     .select("id")
     .single();
 
