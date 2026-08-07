@@ -11,45 +11,43 @@ type PasoDeclaracionesProps = {
   onBack: () => void;
 };
 
-type DeclarationKey = keyof Pick<
-  WizardData,
-  | "declaration_original"
-  | "declaration_no_ai"
-  | "declaration_terms"
-  | "declaration_evaluation"
-  | "declaration_publication"
->;
-
-const DECLARACIONES: {
-  key: DeclarationKey;
-  label: string;
+const DECLARACIONES: Array<{
+  key: keyof Pick<
+    WizardData,
+    | "declaration_original"
+    | "declaration_no_ai"
+    | "declaration_terms"
+    | "declaration_evaluation"
+    | "declaration_publication"
+  >;
+  title: string;
   description: string;
-}[] = [
+}> = [
   {
     key: "declaration_original",
-    label: "Originalidad",
+    title: "Originalidad",
     description: "Declaro que la obra es original y de mi autoría.",
   },
   {
     key: "declaration_no_ai",
-    label: "Inteligencia artificial",
+    title: "Inteligencia artificial",
     description:
       "Declaro que la obra no fue generada total ni parcialmente con inteligencia artificial.",
   },
   {
     key: "declaration_terms",
-    label: "Bases y condiciones",
+    title: "Bases y condiciones",
     description: "Acepto las bases y condiciones del concurso.",
   },
   {
     key: "declaration_evaluation",
-    label: "Lectura del jurado",
+    title: "Lectura del jurado",
     description:
       "Autorizo la lectura y evaluación de la obra por parte del jurado.",
   },
   {
     key: "declaration_publication",
-    label: "Publicación institucional",
+    title: "Publicación institucional",
     description:
       "Autorizo la publicación de obras seleccionadas en la antología digital y materiales institucionales.",
   },
@@ -63,7 +61,7 @@ export default function PasoDeclaraciones({
 }: PasoDeclaracionesProps) {
   const [showError, setShowError] = useState(false);
 
-  const allChecked = DECLARACIONES.every((declaracion) => data[declaracion.key]);
+  const allChecked = DECLARACIONES.every((item) => data[item.key]);
 
   function handleNext() {
     if (!allChecked) {
@@ -76,44 +74,64 @@ export default function PasoDeclaraciones({
   }
 
   return (
-    <div className={styles.stepBlock}>
-      <div className={styles.blockTitle}>
-        <span className={styles.blockNumber}>4</span>
+    <div className={styles.step}>
+      <div className={styles.stepHeadingRow}>
+        <span className={styles.stepNumberBig}>04</span>
 
         <div>
-          <h2>Declaraciones</h2>
-          <p>
-            Estas confirmaciones son obligatorias para poder participar. Protegen
-            la autoría de tu obra y ordenan la evaluación.
+          <h2 className={styles.stepTitle}>Declaraciones</h2>
+          <p className={styles.stepDescription}>
+            Son obligatorias para poder participar.
           </p>
         </div>
       </div>
 
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Confirmaciones obligatorias</legend>
+      <div className={styles.declarationList}>
+        {DECLARACIONES.map((item) => {
+          const checked = data[item.key];
 
-        {DECLARACIONES.map((declaracion) => (
-          <label key={declaracion.key} className={styles.checkboxRow}>
-            <input
-              type="checkbox"
-              checked={data[declaracion.key]}
-              onChange={(e) =>
-                onChange({ [declaracion.key]: e.target.checked })
-              }
-            />
+          return (
+            <label
+              key={item.key}
+              className={`${styles.declarationCard} ${
+                checked ? styles.declarationCardChecked : ""
+              }`}
+            >
+              <input
+                type="checkbox"
+                className={styles.declarationInput}
+                checked={checked}
+                onChange={(e) =>
+                  onChange({
+                    [item.key]: e.target.checked,
+                  } as Partial<WizardData>)
+                }
+              />
 
-            <span className={styles.checkboxText}>
-              <strong>{declaracion.label}</strong>
-              <span>{declaracion.description}</span>
-            </span>
-          </label>
-        ))}
-      </fieldset>
+              <span
+                className={`${styles.declarationCheckbox} ${
+                  checked ? styles.declarationCheckboxChecked : ""
+                }`}
+                aria-hidden="true"
+              >
+                {checked ? "✓" : ""}
+              </span>
+
+              <span className={styles.declarationContent}>
+                <span className={styles.declarationTitle}>{item.title}</span>
+                <span className={styles.declarationText}>
+                  {item.description}
+                </span>
+              </span>
+            </label>
+          );
+        })}
+      </div>
 
       {showError && !allChecked && (
-        <div className={styles.submitError} role="alert">
-          <p>Tenés que aceptar las 5 declaraciones para continuar.</p>
-        </div>
+        <p className={styles.errorText} role="alert">
+          Tenés que aceptar las 5 declaraciones para continuar.
+        </p>
       )}
 
       <div className={styles.actions}>
