@@ -45,7 +45,7 @@ export default function FileUpload({ file, onChange, error }: FileUploadProps) {
     onChange(selected);
   }
 
-  function handleRemoveFile() {
+  function removeFile() {
     onChange(null);
 
     if (inputRef.current) {
@@ -55,28 +55,22 @@ export default function FileUpload({ file, onChange, error }: FileUploadProps) {
 
   return (
     <div>
-      <div
-        className={`${styles.fileDropzone} ${
-          file ? styles.fileDropzoneHasFile : ""
-        }`}
-      >
-        <div className={styles.fileIcon} aria-hidden="true">
-          {file ? "✓" : "↑"}
-        </div>
+      <div className={`${styles.fileDropzone} ${file ? styles.fileDropzoneHasFile : ""}`}>
+        <div className={styles.fileIcon}>{file ? "✓" : "↑"}</div>
 
         {file ? (
-          <div>
+          <>
+            <p className={styles.fileDropTitle}>Archivo cargado</p>
             <p className={styles.fileName}>{file.name}</p>
             <p className={styles.fileSize}>{formatSize(file.size)}</p>
-          </div>
+          </>
         ) : (
-          <div>
+          <>
             <p className={styles.fileDropTitle}>Arrastrá o elegí tu archivo</p>
-            <p className={styles.hint}>
-              Word (.doc / .docx) o PDF editable, hasta{" "}
-              {ARCHIVO_TAMANO_MAXIMO_MB} MB.
+            <p className={styles.fileHelp}>
+              Word (.doc / .docx) o PDF editable, hasta {ARCHIVO_TAMANO_MAXIMO_MB} MB.
             </p>
-          </div>
+          </>
         )}
 
         <div className={styles.fileActions}>
@@ -88,7 +82,7 @@ export default function FileUpload({ file, onChange, error }: FileUploadProps) {
             <button
               type="button"
               className={styles.fileRemoveButton}
-              onClick={handleRemoveFile}
+              onClick={removeFile}
             >
               Quitar
             </button>
@@ -101,7 +95,7 @@ export default function FileUpload({ file, onChange, error }: FileUploadProps) {
           type="file"
           accept=".doc,.docx,.pdf"
           className={styles.visuallyHidden}
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={(event) => handleFiles(event.target.files)}
         />
       </div>
 
