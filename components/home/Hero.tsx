@@ -1,52 +1,69 @@
-import Button from "@/components/ui/Button";
-import Countdown from "./Countdown";
+import Link from "next/link";
+import Logo from "@/components/layout/Logo";
 import styles from "./Hero.module.css";
 
 export default function Hero() {
   return (
     <section className={styles.hero}>
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <div className={styles.emblem} aria-hidden="true">
-            <span>“</span>
-          </div>
+      <div className={styles.marginalia} aria-hidden="true">
+        ¡anotá la fecha!
+        <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
+          <path
+            d="M2 2C20 20 30 30 55 35"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+          />
+          <path
+            d="M46 30 L55 35 L48 38"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+          />
+        </svg>
+      </div>
 
-          <p className={styles.kicker}>
-            Active Learning · Concurso literario institucional 2026
-          </p>
+      <div className={styles.wrap}>
+        <Logo variant="white" size="md" className={styles.heroLogo} />
 
-          <h1 className={styles.title}>Voces de la Adolescencia</h1>
+        <span className={styles.eyebrow}>
+          Active Learning · Concurso literario 2026
+        </span>
 
-          <p className={styles.lema}>Expresá tu voz. Contá una historia.</p>
+        <h1 className={styles.title}>
+          Contá tu historia
+          <span>alzá la voz</span>
+        </h1>
 
-          <p className={styles.lead}>
-            Una invitación para que estudiantes de 7N a 12N escriban, compartan
-            su mirada y participen con una producción literaria propia en poesía,
-            cuento breve o ensayo personal.
-          </p>
+        <p className={styles.lead}>
+          Voces de la Adolescencia invita a estudiantes de 7N a 12N a contar su
+          historia en poesía, cuento breve o ensayo personal. Participación
+          gratuita e individual.
+        </p>
 
-          <div className={styles.ctas}>
-            <Button href="/participar" variant="primary">
-              Quiero participar
-            </Button>
-            <Button href="/bases" variant="outline">
-              Leer bases
-            </Button>
-          </div>
-
-          <div className={styles.meta}>
-            <span>Participación gratuita</span>
-            <span>Producción individual</span>
-            <span>Obra original</span>
-          </div>
+        <div className={styles.ctaRow}>
+          <Link href="/participar" className={styles.btnPrimary}>
+            Quiero participar →
+          </Link>
+          <Link href="/bases" className={styles.btnSecondary}>
+            Leer las bases
+          </Link>
         </div>
 
-        <aside className={styles.countdownBox} aria-label="Cuenta regresiva">
-          <p className={styles.countdownKicker}>Recepción de obras</p>
-          <p className={styles.countdownDate}>1 SEP · 30 OCT</p>
-          <p className={styles.countdownLabel}>Faltan</p>
-          <Countdown />
-        </aside>
+        <div className={styles.heroMeta}>
+          <div>
+            <strong>1 sep — 30 oct</strong>
+            <span>Recepción de obras</span>
+          </div>
+          <div>
+            <strong>Compu / E-reader</strong>
+            <span>Premios 1° y 2° puesto</span>
+          </div>
+          <div>
+            <strong>7N a 12N</strong>
+            <span>Quiénes pueden participar</span>
+          </div>
+        </div>
       </div>
     </section>
   );
