@@ -545,18 +545,33 @@ export default function FormWizard() {
       </section>
 
       <div className={styles.finalBox}>
-        <div>
-          <p className={styles.finalTitle}>Antes de enviar</p>
+        <div className={styles.finalContent}>
+          <p className={styles.finalKicker}>Último paso</p>
 
-          <p>
-            Revisá que el archivo sea el correcto. Al enviar, vas a recibir un
-            código de confirmación para identificar tu participación.
+          <h3 className={styles.finalTitle}>
+            Revisá y enviá tu participación
+          </h3>
+
+          <p className={styles.finalText}>
+            Antes de enviar, verificá que el archivo sea el correcto y que hayas
+            elegido bien la categoría y el tema específico. Al finalizar, vas a
+            recibir un código de confirmación.
           </p>
+
+          <ul className={styles.finalChecklist}>
+            <li>El archivo no incluye tu nombre ni el colegio.</li>
+            <li>El título y el seudónimo están en la primera página.</li>
+            <li>Las declaraciones fueron aceptadas.</li>
+          </ul>
         </div>
 
-        <button type="submit" disabled={submitting}>
-          {submitting ? "Enviando…" : "Enviar participación →"}
-        </button>
+        <div className={styles.finalAction}>
+          <button type="submit" disabled={submitting}>
+            {submitting ? "Enviando…" : "Enviar participación →"}
+          </button>
+
+          <p>El envío puede tardar unos segundos.</p>
+        </div>
       </div>
     </form>
   );
