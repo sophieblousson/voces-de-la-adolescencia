@@ -130,6 +130,9 @@ export default function FormWizard() {
   const [submitting, setSubmitting] = useState(false);
 
   const subcategoriasDisponibles = getSubcategorias(data.category);
+  const declaracionesAceptadas = DECLARACIONES.every(
+  (declaracion) => data[declaracion.key]
+);
 
   function updateData(patch: Partial<WizardData>) {
     setData((prev) => ({ ...prev, ...patch }));
