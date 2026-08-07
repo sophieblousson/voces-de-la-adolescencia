@@ -384,4 +384,126 @@
   .finalAction button {
     width: 100%;
   }
+  .fileDropzone {
+  border: 2px dashed var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 34px 24px;
+  background: #fcfaf4;
+  text-align: center;
+}
+
+.fileDropzoneHasFile {
+  border-color: var(--color-marigold);
+  background: #fffaf0;
+}
+
+.fileIcon {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: var(--color-marigold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.fileDropTitle {
+  margin: 0 0 6px;
+  color: var(--color-ink);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.fileHelp {
+  margin: 0;
+  color: #6b7180;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.fileName {
+  margin: 8px 0 0;
+  color: var(--color-ink);
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.fileSize {
+  margin: 4px 0 0;
+  color: #6b7180;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 12.5px;
+}
+
+.fileActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.fileInputLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  border-radius: 2px;
+  background: var(--color-ink);
+  color: #ffffff;
+  cursor: pointer;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 18px;
+}
+
+.fileInputLabel:hover {
+  background: var(--color-ink-2);
+}
+
+.fileRemoveButton {
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  background: #ffffff;
+  color: var(--color-ink);
+  cursor: pointer;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 18px;
+}
+
+.fileRemoveButton:hover {
+  border-color: var(--color-ink);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@media (max-width: 520px) {
+  .fileActions {
+    flex-direction: column;
+  }
+
+  .fileInputLabel,
+  .fileRemoveButton {
+    width: 100%;
+  }
+}
 }
