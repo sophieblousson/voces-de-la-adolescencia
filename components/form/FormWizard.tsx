@@ -50,6 +50,7 @@ const INITIAL_DATA: WizardData = {
 
 export default function FormWizard() {
   const router = useRouter();
+
   const [step, setStep] = useState(1);
   const [data, setData] = useState<WizardData>(INITIAL_DATA);
   const [submitting, setSubmitting] = useState(false);
@@ -122,7 +123,7 @@ export default function FormWizard() {
 
   return (
     <div className={styles.wizard}>
-      <ProgressBar currentStep={step} totalSteps={4} />
+      <ProgressBar currentStep={step} />
 
       {step === 1 && (
         <PasoDatosEstudiante
