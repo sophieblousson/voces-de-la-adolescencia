@@ -28,7 +28,7 @@ const CATEGORIAS = [
 
 export default function Categorias() {
   return (
-    <Section id="categorias" variant="default">
+   <Section id="categorias">
       <div className={homeStyles.sectionInner}>
         <p className={homeStyles.sectionEyebrow}>
           Tres formas de contar tu historia
