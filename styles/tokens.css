@@ -1,68 +1,75 @@
 /*
-  Tokens de marca — Active Learning
-  Voces de la Adolescencia 2026
-
-  Fuente de verdad para colores, tipografía, espaciado y sistema visual.
-  La web debe mantener una estética institucional, literaria, cálida y contemporánea.
+  Tokens de marca — Voces de la Adolescencia 2026
+  Diseño editorial inspirado en los mockups de referencia.
 */
 
 :root {
-  /* Colores institucionales Active Learning */
-  --color-rojo: #e2001a;
-  --color-celeste: #39a9dc;
-  --color-negro: #1a171b;
-  --color-gris: #646567;
-  --color-verde: #97bf0d;
-  --color-amarillo: #ffd500;
+  /* Paleta principal del nuevo diseño */
+  --color-ink: #152548;
+  --color-ink-2: #1d3465;
+  --color-marigold: #f2a93b;
+  --color-marigold-dark: #d98a16;
+  --color-paper: #fbf7ec;
+  --color-sky: #2c9fd8;
+  --color-charcoal: #20242c;
+  --color-line: rgba(21, 37, 72, 0.16);
+  --color-error: #c0392b;
 
-  /* Roles semánticos */
-  --color-fondo: #ffffff;
-  --color-fondo-suave: #f7fbfd;
-  --color-fondo-alt: #f3f8fb;
-  --color-superficie: rgba(255, 255, 255, 0.88);
+  /* Alias para no romper componentes anteriores */
+  --color-fondo: var(--color-paper);
+  --color-fondo-suave: #fffaf0;
+  --color-fondo-alt: #ffffff;
+  --color-superficie: #ffffff;
   --color-superficie-solida: #ffffff;
 
-  --color-texto-principal: var(--color-negro);
-  --color-texto-secundario: var(--color-gris);
-  --color-texto-suave: #7b7c80;
+  --color-texto-principal: var(--color-charcoal);
+  --color-texto-secundario: #454b58;
+  --color-texto-suave: #6b7180;
 
-  --color-accion-principal: var(--color-celeste);
-  --color-accion-principal-hover: #248fc2;
-  --color-acento-pedagogico: var(--color-verde);
-  --color-acento-alerta: var(--color-rojo);
-  --color-acento-destaque: var(--color-amarillo);
+  --color-accion-principal: var(--color-marigold);
+  --color-accion-principal-hover: var(--color-marigold-dark);
+  --color-acento-pedagogico: var(--color-sky);
+  --color-acento-alerta: var(--color-error);
+  --color-acento-destaque: var(--color-marigold);
 
-  --color-borde: rgba(26, 23, 27, 0.1);
-  --color-borde-suave: rgba(57, 169, 220, 0.16);
+  --color-borde: var(--color-line);
+  --color-borde-suave: rgba(44, 159, 216, 0.18);
 
-  /* Tintes suaves */
-  --color-celeste-tint: #eaf7fc;
-  --color-verde-tint: #f2f8e6;
-  --color-amarillo-tint: #fff8d8;
+  /* Tintes */
+  --color-celeste-tint: #eaf6fb;
+  --color-verde-tint: #f1f7df;
+  --color-amarillo-tint: #fff4d9;
   --color-rojo-tint: #fdecef;
 
-  /* Gradientes */
-  --gradient-hero: radial-gradient(circle at top left, rgba(57, 169, 220, 0.22), transparent 34%),
-    radial-gradient(circle at top right, rgba(151, 191, 13, 0.2), transparent 32%),
-    linear-gradient(180deg, #ffffff 0%, #f6fbfd 100%);
+  /* Colores Active Learning heredados, por compatibilidad */
+  --color-rojo: #e2001a;
+  --color-celeste: var(--color-sky);
+  --color-negro: var(--color-charcoal);
+  --color-gris: #646567;
+  --color-verde: #97bf0d;
+  --color-amarillo: var(--color-marigold);
 
-  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82));
-
-  --gradient-cta: linear-gradient(135deg, rgba(57, 169, 220, 0.14), rgba(151, 191, 13, 0.16));
+  /* Gradientes y texturas */
+  --gradient-hero:
+    repeating-linear-gradient(
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px,
+      transparent 38px
+    );
 
   --gradient-brand-line: linear-gradient(
     90deg,
-    var(--color-rojo) 0%,
-    var(--color-amarillo) 24%,
-    var(--color-verde) 52%,
-    var(--color-celeste) 100%
+    var(--color-marigold) 0%,
+    var(--color-sky) 100%
   );
 
-  /* Textura sutil de puntos */
-  --texture-dots: radial-gradient(rgba(57, 169, 220, 0.18) 1px, transparent 1px);
+  --texture-dots: radial-gradient(rgba(21, 37, 72, 0.12) 1px, transparent 1px);
 
-  /* Tipografía */
-  --font-principal: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Tipografías */
+  --font-principal: var(--font-source-sans-3), "Source Sans 3", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-anton), "Anton", Impact, sans-serif;
+  --font-script: var(--font-caveat), "Caveat", cursive;
 
   /* Escala tipográfica */
   --fs-xs: 0.75rem;
@@ -73,14 +80,14 @@
   --fs-xl: 1.5rem;
   --fs-2xl: 2rem;
   --fs-3xl: 2.75rem;
-  --fs-4xl: clamp(2.6rem, 7vw, 5.4rem);
+  --fs-4xl: clamp(3rem, 7vw, 5.25rem);
 
   /* Pesos */
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
-  --fw-black: 800;
+  --fw-black: 700;
 
   /* Espaciado */
   --space-1: 0.25rem;
@@ -97,22 +104,22 @@
   --space-24: 6rem;
 
   /* Layout */
-  --max-width: 1120px;
+  --max-width: 1040px;
   --max-width-narrow: 820px;
 
   /* Radios */
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
   --radius-full: 999px;
 
   /* Sombras */
-  --shadow-xs: 0 1px 2px rgba(26, 23, 27, 0.06);
-  --shadow-sm: 0 8px 24px rgba(26, 23, 27, 0.08);
-  --shadow-md: 0 18px 48px rgba(26, 23, 27, 0.11);
-  --shadow-lg: 0 28px 80px rgba(26, 23, 27, 0.14);
+  --shadow-xs: 0 1px 2px rgba(21, 37, 72, 0.06);
+  --shadow-sm: 0 8px 20px rgba(21, 37, 72, 0.08);
+  --shadow-md: 0 14px 34px rgba(21, 37, 72, 0.12);
+  --shadow-lg: 0 22px 54px rgba(21, 37, 72, 0.18);
 
   /* Transiciones */
   --transition-fast: 160ms ease;
