@@ -1,0 +1,30 @@
+.wizard {
+  width: 100%;
+}
+
+.wizard h1,
+.wizard h2,
+.wizard h3 {
+  color: var(--color-ink);
+  font-family: var(--font-anton), Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.wizard p,
+.wizard label,
+.wizard li,
+.wizard span {
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+}
+
+.wizard label {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.wizard input,
+.wizard select,
+.wizard textarea {
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+}
