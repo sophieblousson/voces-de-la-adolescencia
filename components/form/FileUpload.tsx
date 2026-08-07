@@ -12,11 +12,11 @@ type FileUploadProps = {
 };
 
 function formatSize(bytes: number): string {
-  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 export default function FileUpload({ file, onChange, error }: FileUploadProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   function handleFiles(fileList: FileList | null) {
     const selected = fileList?.[0];
@@ -34,32 +34,67 @@ export default function FileUpload({ file, onChange, error }: FileUploadProps) {
 
     if (!validation.ok) {
       onChange(null, validation.error);
-      if (inputRef.current) inputRef.current.value = "";
+
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+
       return;
     }
 
     onChange(selected);
   }
 
+  function handleRemoveFile() {
+    onChange(null);
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }
+
   return (
     <div>
       <div
-        className={`${styles.fileDropzone} ${file ? styles.fileDropzoneHasFile : ""}`}
+        className={`${styles.fileDropzone} ${
+          file ? styles.fileDropzoneHasFile : ""
+        }`}
       >
+        <div className={styles.fileIcon} aria-hidden="true">
+          {file ? "✓" : "↑"}
+        </div>
+
         {file ? (
-          <>
+          <div>
             <p className={styles.fileName}>{file.name}</p>
             <p className={styles.fileSize}>{formatSize(file.size)}</p>
-          </>
+          </div>
         ) : (
-          <p className={styles.hint} style={{ margin: 0 }}>
-            Word (.doc, .docx) o PDF, hasta {ARCHIVO_TAMANO_MAXIMO_MB}MB.
-          </p>
+          <div>
+            <p className={styles.fileDropTitle}>Arrastrá o elegí tu archivo</p>
+            <p className={styles.hint}>
+              Word (.doc / .docx) o PDF editable, hasta{" "}
+              {ARCHIVO_TAMANO_MAXIMO_MB} MB.
+            </p>
+          </div>
         )}
 
-        <label className={styles.fileInputLabel} htmlFor="file-upload">
-          {file ? "Cambiar archivo" : "Elegir archivo"}
-        </label>
+        <div className={styles.fileActions}>
+          <label className={styles.fileInputLabel} htmlFor="file-upload">
+            {file ? "Cambiar archivo" : "Elegir archivo"}
+          </label>
+
+          {file && (
+            <button
+              type="button"
+              className={styles.fileRemoveButton}
+              onClick={handleRemoveFile}
+            >
+              Quitar
+            </button>
+          )}
+        </div>
+
         <input
           ref={inputRef}
           id="file-upload"
@@ -69,6 +104,7 @@ export default function FileUpload({ file, onChange, error }: FileUploadProps) {
           onChange={(e) => handleFiles(e.target.files)}
         />
       </div>
+
       {error && (
         <p className={styles.errorText} role="alert">
           {error}
