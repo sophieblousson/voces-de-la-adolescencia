@@ -396,4 +396,23 @@
   .blockTitle {
     align-items: flex-start;
   }
+  .checkboxText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #454b58;
+  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.checkboxText strong {
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkboxText span {
+  color: #6b7180;
+}
 }
