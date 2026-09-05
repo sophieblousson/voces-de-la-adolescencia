@@ -32,9 +32,22 @@
   padding: 0 32px 0 56px;
 }
 
-.heroLogo {
-  height: 30px !important;
+/* Banner Voces */
+
+.bannerWrap {
   margin-bottom: 26px;
+}
+
+.banner {
+  width: auto;
+  height: auto;
+  max-width: 340px;
+  display: block;
+}
+
+/* Si quedó alguna referencia vieja al logo blanco, la ocultamos */
+.heroLogo {
+  display: none !important;
 }
 
 .eyebrow {
@@ -77,7 +90,7 @@
   color: var(--color-marigold);
   font-family: var(--font-caveat), cursive;
   font-size: clamp(44px, 5.4vw, 66px);
-  font-weight: 700;
+  font-weight: 400;
   line-height: 0.95;
   text-transform: none;
 }
@@ -89,6 +102,7 @@
   font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1.6;
+  text-align: justify;
 }
 
 .ctaRow {
@@ -159,6 +173,8 @@
   margin-top: 4px;
 }
 
+/* Nota lateral */
+.sideNote,
 .marginalia {
   position: absolute;
   right: 48px;
@@ -168,9 +184,27 @@
   color: var(--color-marigold);
   font-family: var(--font-caveat), cursive;
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1.15;
   transform: rotate(-4deg);
+}
+
+.sideNoteText {
+  margin: 0;
+  color: var(--color-marigold);
+  font-family: var(--font-caveat), cursive;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.arrow {
+  display: block;
+  margin-top: 8px;
+  margin-left: 36px;
+  color: var(--color-marigold);
+  font-size: 36px;
+  line-height: 1;
 }
 
 .marginalia svg {
@@ -180,6 +214,7 @@
 }
 
 @media (max-width: 900px) {
+  .sideNote,
   .marginalia {
     display: none;
   }
@@ -196,6 +231,10 @@
 
   .wrap {
     padding: 0 20px 0 36px;
+  }
+
+  .banner {
+    max-width: 280px;
   }
 
   .title {
@@ -216,8 +255,12 @@
     padding: 40px 0 52px;
   }
 
-  .heroLogo {
-    height: 26px !important;
+  .bannerWrap {
+    margin-bottom: 22px;
+  }
+
+  .banner {
+    max-width: 230px;
   }
 
   .eyebrow {
@@ -235,6 +278,7 @@
 
   .lead {
     font-size: 16px;
+    text-align: left;
   }
 
   .ctaRow {
