@@ -45,20 +45,20 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className={styles.visual}>
+        <div className={styles.bannerArea}>
           <Image
             src="/voces-banner.png"
             alt="Voces de la Adolescencia 2026 · Tercera edición"
-            width={620}
-            height={460}
+            width={760}
+            height={520}
             className={styles.banner}
             priority
           />
+        </div>
 
-          <div className={styles.sideNote}>
-            <p>¡anotá la fecha!</p>
-            <span aria-hidden="true">↘</span>
-          </div>
+        <div className={styles.sideNote}>
+          <p>¡anotá la fecha!</p>
+          <span aria-hidden="true">↘</span>
         </div>
       </div>
     </section>
