@@ -7,7 +7,7 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.wrap}>
         <Image
-          src="/Landing_Vocesadolescencia2026_AL_1.png"
+          src="/voces-banner.png"
           alt="Voces de la Adolescencia 2026"
           width={1300}
           height={900}
