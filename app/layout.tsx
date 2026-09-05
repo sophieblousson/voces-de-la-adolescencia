@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Anton, Caveat, Source_Sans_3 } from "next/font/google";
+import { Anton, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
 const anton = Anton({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-anton",
-  display: "swap",
-});
-
-const caveat = Caveat({
-  weight: ["600", "700"],
-  subsets: ["latin"],
-  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -36,9 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body
-        className={`${anton.variable} ${caveat.variable} ${sourceSans3.variable}`}
-      >
+      <body className={`${anton.variable} ${sourceSans3.variable}`}>
         {children}
       </body>
     </html>
