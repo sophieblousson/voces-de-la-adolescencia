@@ -10,7 +10,7 @@
       transparent 1px,
       transparent 38px
     );
-  padding: 70px 0 76px;
+  padding: 58px 0 64px;
   border-bottom: 6px solid var(--color-marigold);
 }
 
@@ -28,36 +28,38 @@
   position: relative;
   z-index: 1;
   max-width: var(--max-width);
+  min-height: 660px;
   margin: 0 auto;
   padding: 0 56px 0 80px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 430px;
-  gap: 72px;
-  align-items: center;
 }
 
 .content {
-  min-width: 0;
+  position: relative;
+  z-index: 3;
+  max-width: 660px;
 }
 
-.visual {
-  position: relative;
-  min-height: 430px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Oculta cualquier logo viejo del hero */
+.heroLogo {
+  display: none !important;
+}
+
+/* Banner grande al centro / derecha */
+
+.bannerArea {
+  position: absolute;
+  z-index: 2;
+  right: 70px;
+  top: 165px;
+  width: min(48vw, 620px);
+  pointer-events: none;
 }
 
 .banner {
   width: 100%;
-  max-width: 410px;
   height: auto;
   object-fit: contain;
   display: block;
-}
-
-.heroLogo {
-  display: none !important;
 }
 
 .eyebrow {
@@ -82,11 +84,11 @@
 }
 
 .title {
-  max-width: 760px;
+  max-width: 650px;
   margin: 0;
   color: #ffffff;
   font-family: var(--font-anton), Impact, sans-serif;
-  font-size: clamp(64px, 7.2vw, 104px);
+  font-size: clamp(62px, 7.2vw, 104px);
   font-weight: 400;
   line-height: 0.92;
   letter-spacing: 0.01em;
@@ -185,9 +187,9 @@
 
 .sideNote {
   position: absolute;
-  right: -10px;
-  top: 72px;
-  z-index: 2;
+  right: 60px;
+  top: 170px;
+  z-index: 4;
   color: var(--color-marigold);
   transform: rotate(-5deg);
 }
@@ -196,7 +198,7 @@
   margin: 0;
   color: var(--color-marigold);
   font-family: var(--font-caveat), cursive;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 400;
   line-height: 1;
 }
@@ -210,19 +212,30 @@
   line-height: 1;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
+  .bannerArea {
+    right: 36px;
+    width: min(44vw, 520px);
+  }
+
+  .title {
+    max-width: 560px;
+    font-size: clamp(58px, 7vw, 90px);
+  }
+}
+
+@media (max-width: 980px) {
   .wrap {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 42px;
+    min-height: auto;
     padding: 0 36px 0 64px;
   }
 
-  .visual {
-    min-height: 360px;
-  }
-
-  .banner {
-    max-width: 330px;
+  .bannerArea {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: min(100%, 420px);
+    margin: 38px 0 0;
   }
 
   .sideNote {
@@ -230,9 +243,9 @@
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 820px) {
   .hero {
-    padding: 52px 0 60px;
+    padding: 48px 0 56px;
   }
 
   .hero::before {
@@ -240,19 +253,7 @@
   }
 
   .wrap {
-    grid-template-columns: 1fr;
-    gap: 36px;
     padding: 0 24px 0 42px;
-  }
-
-  .visual {
-    order: -1;
-    min-height: auto;
-    justify-content: flex-start;
-  }
-
-  .banner {
-    max-width: 260px;
   }
 
   .title {
@@ -270,15 +271,11 @@
 
 @media (max-width: 560px) {
   .hero {
-    padding: 44px 0 54px;
+    padding: 42px 0 52px;
   }
 
   .wrap {
     padding: 0 20px 0 36px;
-  }
-
-  .banner {
-    max-width: 220px;
   }
 
   .eyebrow {
@@ -307,5 +304,10 @@
   .heroMeta {
     flex-direction: column;
     gap: 18px;
+  }
+
+  .bannerArea {
+    width: min(100%, 300px);
+    margin-top: 34px;
   }
 }
