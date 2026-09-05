@@ -1,3 +1,5 @@
+@import "../styles/tokens.css";
+
 @font-face {
   font-family: "Sugar Cream";
   src: url("/SugarCream.otf") format("opentype");
@@ -5,7 +7,10 @@
   font-style: normal;
   font-display: swap;
 }
-@import "../styles/tokens.css";
+
+:root {
+  --font-caveat: "Sugar Cream", cursive;
+}
 
 *,
 *::before,
