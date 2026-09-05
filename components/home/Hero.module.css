@@ -9,7 +9,7 @@
       transparent 1px,
       transparent 38px
     );
-  padding: 56px 0 64px;
+ padding: 42px 0 48px;
   border-bottom: 6px solid var(--color-marigold);
 }
 
@@ -35,9 +35,8 @@
 }
 
 .banner {
-  width: min(100%, 780px);
-  height: auto;
-  display: block;
+  width: min(100%, 720px);
+  margin: 0 auto 26px;
   object-fit: contain;
   margin: 0 auto 34px;
 }
@@ -55,9 +54,9 @@
   background: var(--color-marigold);
   color: var(--color-ink);
   font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
-  font-size: 16px;
+ font-size: 17px;
+  padding: 16px 30px;
   font-weight: 700;
-  padding: 15px 28px;
   border-radius: 2px;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
   transition:
@@ -73,7 +72,7 @@
 .btnSecondary {
   color: #ffffff;
   font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
-  font-size: 16px;
+ font-size: 17px;
   font-weight: 700;
   border-bottom: 2px solid var(--color-marigold);
   padding-bottom: 2px;
