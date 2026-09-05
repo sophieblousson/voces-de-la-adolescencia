@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "Sugar Cream";
+  src: url("/SugarCream.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 @import "../styles/tokens.css";
 
 *,
