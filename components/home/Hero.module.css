@@ -1,7 +1,6 @@
 .hero {
   position: relative;
   overflow: hidden;
-  color: #ffffff;
   background: var(--color-ink);
   background-image:
     repeating-linear-gradient(
@@ -10,7 +9,7 @@
       transparent 1px,
       transparent 38px
     );
-  padding: 48px 0 64px;
+  padding: 56px 0 64px;
   border-bottom: 6px solid var(--color-marigold);
 }
 
@@ -30,74 +29,23 @@
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 32px 0 56px;
-}
-
-.content {
-  max-width: 760px;
-}
-
-.heroLogo {
-  display: none !important;
-}
-
-.eyebrow {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 18px;
-  color: var(--color-marigold);
-  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
-.eyebrow::before {
-  content: "";
-  width: 22px;
-  height: 2px;
-  background: var(--color-marigold);
-  display: inline-block;
-}
-
-.title {
-  max-width: 760px;
-  margin: 0;
-  color: #ffffff;
-  font-family: var(--font-anton), Impact, sans-serif;
-  font-size: clamp(58px, 7.4vw, 92px);
-  font-weight: 400;
-  line-height: 0.96;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  text-wrap: balance;
-}
-
-.title span {
+.banner {
+  width: min(100%, 780px);
+  height: auto;
   display: block;
-  margin-top: 10px;
-  color: var(--color-marigold);
-  font-family: "Sugar Cream", var(--font-caveat), cursive;
-  font-size: clamp(44px, 5.4vw, 66px);
-  font-weight: 400;
-  line-height: 0.95;
-  text-transform: none;
-}
-
-.lead {
-  max-width: 620px;
-  margin: 28px 0 34px;
-  color: #d9e0ef;
-  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  line-height: 1.6;
-  text-align: justify;
+  object-fit: contain;
+  margin: 0 auto 34px;
 }
 
 .ctaRow {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 16px;
 }
@@ -129,91 +77,16 @@
   font-weight: 700;
   border-bottom: 2px solid var(--color-marigold);
   padding-bottom: 2px;
+  transition: color var(--transition-fast);
 }
 
 .btnSecondary:hover {
   color: var(--color-marigold);
 }
 
-.heroMeta {
-  margin-top: 44px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 36px;
-}
-
-.heroMeta div {
-  color: #b9c4dc;
-  font-family: var(--font-source-sans-3), Helvetica, Arial, sans-serif;
-  font-size: 14px;
-}
-
-.heroMeta strong {
-  display: block;
-  color: #ffffff;
-  font-family: var(--font-anton), Impact, sans-serif;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.1;
-  text-transform: uppercase;
-}
-
-.heroMeta span {
-  display: block;
-  margin-top: 4px;
-}
-
-/* BANNER CENTRADO */
-.bannerArea {
-  display: flex;
-  justify-content: center;
-  margin-top: 48px;
-}
-
-.banner {
-  display: block;
-  width: min(100%, 560px);
-  height: auto;
-  object-fit: contain;
-}
-
-/* ANOTÁ LA FECHA */
-.sideNote {
-  position: absolute;
-  right: 48px;
-  top: 210px;
-  z-index: 2;
-  width: 170px;
-  color: var(--color-marigold);
-  font-family: "Sugar Cream", var(--font-caveat), cursive;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.15;
-  transform: rotate(-4deg);
-  text-align: center;
-}
-
-.sideNote p {
-  margin: 0;
-  color: var(--color-marigold);
-}
-
-.sideNote span {
-  display: block;
-  margin-top: 4px;
-  font-size: 28px;
-  line-height: 1;
-}
-
-@media (max-width: 900px) {
-  .sideNote {
-    display: none;
-  }
-}
-
 @media (max-width: 820px) {
   .hero {
-    padding: 44px 0 56px;
+    padding: 44px 0 54px;
   }
 
   .hero::before {
@@ -224,61 +97,30 @@
     padding: 0 20px 0 36px;
   }
 
-  .title {
-    font-size: clamp(52px, 13vw, 76px);
-  }
-
-  .lead {
-    max-width: 620px;
-    text-align: left;
-  }
-
-  .heroMeta {
-    gap: 24px;
-  }
-
-  .bannerArea {
-    margin-top: 36px;
-  }
-
   .banner {
-    width: min(100%, 440px);
+    width: min(100%, 620px);
+    margin-bottom: 28px;
   }
 }
 
 @media (max-width: 560px) {
   .hero {
-    padding: 40px 0 52px;
+    padding: 36px 0 46px;
   }
 
-  .eyebrow {
-    font-size: 11px;
-    line-height: 1.35;
-  }
-
-  .title {
-    font-size: clamp(44px, 16vw, 60px);
-  }
-
-  .title span {
-    font-size: clamp(38px, 14vw, 52px);
-  }
-
-  .lead {
-    font-size: 16px;
+  .banner {
+    width: 100%;
+    margin-bottom: 24px;
   }
 
   .ctaRow {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    width: 100%;
   }
 
-  .heroMeta {
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .banner {
-    width: min(100%, 320px);
+  .btnPrimary,
+  .btnSecondary {
+    font-size: 15px;
   }
 }
