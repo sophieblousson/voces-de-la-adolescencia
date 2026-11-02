@@ -17,7 +17,7 @@ export default function Hero() {
 
         <div className={styles.ctaRow}>
           <Link href="/participar" className={styles.btnPrimary}>
-            Quiero participar →
+            Convocatoria finalizada
           </Link>
 
           <Link href="/bases" className={styles.btnSecondary}>
